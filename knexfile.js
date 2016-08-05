@@ -3,14 +3,12 @@ require('dotenv').config();
 module.exports = {
 
   development: {
-    client: 'postgresql',
+    client: 'pg',
     connection: {
-      host     : process.env.DB_HOST,
-      user     : process.env.DB_USER,
-      password : process.env.DB_PASS,
-      database : process.env.DB_NAME,
-      port     : process.env.DB_PORT,
-      ssl      : process.env.DB_SSL
+    host: 'localhost',
+    user: 'development',
+    password: 'development',
+    database: 'open_shelf1'
     },
     migrations: {
       directory: './db/migrations',
