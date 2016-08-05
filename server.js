@@ -42,8 +42,11 @@ app.use(express.static("public"));
 app.use("/api/users", usersRoutes(knex));
 
 // Home page
-app.get("/", (req, res) => {
-  res.render("home");
+app.get("/", (req, res)=>{
+	res.render("home");
+});
+app.get("/users/:user_id", (req, res) => {
+  res.render("user/profile", {userId: req.params.user_id});
 });
 
 app.listen(PORT, () => {
