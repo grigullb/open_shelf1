@@ -1,15 +1,16 @@
 $(() => {
+  var userId = $('#user-id').val();
   $.ajax({
     method: "GET",
-    url: "/api/users"
+    url: "/api/users/" + userId + "/books"
   }).done((users) => {
     for(user of users) {
-      $("<div>").text(user.firstname).appendTo($("body"));
+      $("<div>").text(user.title).appendTo($(".show_books"));
     }
   });;
   
 
-var userId = $('#user-id').val();
+
 $.ajax({
     method: "GET",
     url: "/api/users/" + userId
