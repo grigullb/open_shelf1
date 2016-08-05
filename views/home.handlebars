@@ -1,15 +1,8 @@
 <h1>Example App: Home</h1>
 
-<script>
-  $.(function){
-    $.ajax({
-      url: "https://www.googleapis.com/books/v1/volumes?q=isbn:9781937557065", 
-      method: "get",
-      dataType: "json",
-      success: function (book_info)  {
-        console.log(book_info);
-      }
-    });
-  }
+<h3 class="book-title"></h3>
+<h4 class="book-author"></h4>
+<img class="book-image"/>
+<p class="page-count"></p>
+<p class="genre"></p>
 
-</script> 

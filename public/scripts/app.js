@@ -20,7 +20,11 @@ $(() => {
       var page_count = results.pageCount;
       var image = results.imageLinks.thumbnail; //smallThumbnail also available, both are URL links
       var genre = results.categories[0]; //array 
-      console.log(book_title, author, page_count, genre);
+      $(".book-title").text(book_title);
+      $(".book-author").text(author);
+      $(".book-image").attr("src", image);
+      $(".page-count").text(page_count);
+      $(".genre").text(genre);
     }
   });
 
