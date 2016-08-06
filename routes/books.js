@@ -1,8 +1,19 @@
 const express = require('express');
 const router  = express.Router();
 
-router.get("/new", (req, res)) => {
-  res.console.log("Working!");
+
+module.exports = (knex) => {
+
+	router.get("/:id", (req, res) => {
+    knex
+      .select("*")
+      .from("books")
+      .where('id', req.params.id)
+      .then((results) => {
+        res.json(results);
+    });
+  });
+	return router;
 }
 
-return router;
+

@@ -16,6 +16,9 @@ module.exports = (knex) => {
     });
   });
 
+
+
+
   router.get("/:id", (req, res) => {
     knex
       .select("*")
