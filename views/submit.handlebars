@@ -1,22 +1,22 @@
 <script type="text/javascript" src="/scripts/submit.js"></script>
 <main>
   <form action="/new" method="post" class="book-submit-form">   <!-- action needs a route -->
-    <label for="submit-isbn">ISBN:</label>
-    <input id="submit-isbn" type="number"><br>
+    <label for="submit-isbn" class="label">ISBN:</label>
+    <input id="submit-isbn" class="input" type="number"><br>
 
-    <label for="submit-title">Book Title:</label>
-    <input id="submit-title" type="text"><br>
+    <label for="submit-title" class="label">Book Title:</label>
+    <input id="submit-title" class="input" type="text"><br>
 
-    <label for="submit-author">Author(s):</label>
-    <input id="submit-author" type="text"><br>
+    <label for="submit-author" class="label">Author(s):</label>
+    <input id="submit-author" class="input" type="text"><br>
 
-    <label for="submit-genre">Genre:</label>
-    <input id="submit-genre" type="text"><br>
+    <label for="submit-genre" class="label">Genre:</label>
+    <input id="submit-genre" class="input" type="text"><br>
 
     <input type="submit" value="Post Book">
   </form>
 
     <hr> 
-    <button class="book-submit-test">EVENT: BOOK SCAN SUCCESS</button>
+    <button class="book-submit-test button is-primary">EVENT: BOOK SCAN SUCCESS</button>
     <hr>
 </main>
