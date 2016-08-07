@@ -8,7 +8,7 @@ module.exports = {
     host: 'localhost',
     user: 'development',
     password: 'development',
-    database: 'open_shelf'
+    database: 'openshelf1'
     },
     migrations: {
       directory: './db/migrations',
