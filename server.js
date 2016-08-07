@@ -47,6 +47,11 @@ app.use("/api/books", booksRoutes(knex));
 app.get("/", (req, res)=>{
 	res.render("home");
 });
+
+app.get("/users/new", (req, res) => {
+  res.render("user/new");
+});
+
 app.get("/users/:user_id", (req, res) => {
   res.render("user/profile", {userId: req.params.user_id});
 });
