@@ -39,6 +39,7 @@ app.use("/styles", sass({
 }));
 app.use(express.static("public"));
 
+
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
 app.use("/api/books", booksRoutes(knex));
@@ -66,6 +67,10 @@ app.get("/login", (req, res) => {
 //New Book Submission
 app.get("/new", (req, res) => {
   res.render("submit");
+});
+
+app.post("/new", (req, res) =>{
+	res.redirect("/new");
 });
 
 app.listen(PORT, () => {
