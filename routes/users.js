@@ -4,6 +4,7 @@ const express = require('express');
 const router  = express.Router();
 
 
+
 module.exports = (knex) => {
 
 	router.get("/:id/books", (req, res) => {
@@ -15,8 +16,6 @@ module.exports = (knex) => {
         res.json(results);
     });
   });
-
-
 
 
   router.get("/:id", (req, res) => {
