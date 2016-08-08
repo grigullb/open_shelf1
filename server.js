@@ -48,14 +48,22 @@ app.get("/", (req, res)=>{
 	res.render("home");
 });
 
+//New User Sign-Up
 app.get("/users/new", (req, res) => {
   res.render("user/new");
 });
 
+//User Profile
 app.get("/users/:user_id", (req, res) => {
   res.render("user/profile", {userId: req.params.user_id});
 });
 
+//Login Page
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+
+//New Book Submission
 app.get("/new", (req, res) => {
   res.render("submit");
 });

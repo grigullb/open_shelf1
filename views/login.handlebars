@@ -1,0 +1,26 @@
+<main>
+  <h1>Login</h1>
+  <div>
+    <form action="/users/:id" method="get">   <!-- action needs a route -->
+      <label for="login-email" class="label">Email:</label>
+      <input id="login-email" class="input" type="text"><br>
+
+      <label for="submit-title" class="label">Password:</label>
+      <input id="submit-title" class="input" type="password"><br>
+
+      <input type="submit" value="Login">
+    </form>
+  </div>
+  <br>
+  
+  <div>  <!-- these could probably be button tags - testing something with forms/submits -->
+    <form action="/">
+      <input type="submit" value="Return to Landing" />
+    </form>
+  </div>
+  <div>
+    <form action="/users/new">
+      <input type="submit" value="Make a New User" />
+    </form> 
+  </div>
+</main>
