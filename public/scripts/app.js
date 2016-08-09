@@ -15,7 +15,7 @@ $(() => {
     var this_book_id = $(this).data("bookid");
     $.ajax({
       method: "GET",
-      url: "/api/books/"+this_book_id
+      url: "/api/books/user_books/"+this_book_id
     }).done((book) => {
       var this_isbn = book[0].isbn;
       $.ajax({

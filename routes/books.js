@@ -13,7 +13,18 @@ module.exports = (knex) => {
        });
   });
 
-	router.get("/:id", (req, res) => {
+  router.get("/search/:filter/:term", (req, res) => {
+    knex
+      .select("*")
+      .from(req.params.filter+"s")
+      .where('id', 1)
+      .then((results) => {
+        res.json(results);
+        console.log(results);
+    });
+  });
+
+	router.get("/user_books/:id", (req, res) => {
     knex
       .select("*")
       .from("books")
