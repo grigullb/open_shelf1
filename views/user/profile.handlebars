@@ -1,7 +1,76 @@
-<main>
-  <h1>profile page</h1>
+<nav class="nav">
+  <div class="nav-left">
+    <a class="nav-item is-brand" href="#">
+      <h2>Open Shelf</h2>
+    </a>
+  </div>
+
+  <div class="nav-center">
+    <a class="nav-item" href="#">
+      <span class="icon">
+        <i class="fa fa-github"></i>
+      </span>
+    </a>
+    <a class="nav-item" href="#">
+      <span class="icon">
+        <i class="fa fa-twitter"></i>
+      </span>
+    </a>
+  </div>
+
+  <span class="nav-toggle">
+    <span></span>
+    <span></span>
+    <span></span>
+  </span>
+
+  <div class="nav-right nav-menu">
+    
+    <a class="nav-item" href="#">
+      <h1>profile page</h1>
+    </a>
+
+    <span class="nav-item">
+      <a class="button is-danger" >
+        <span>Add Book</span>
+      </a>
+      <a class="button" href="#">
+        <span>Settings</span>
+      </a>
+      <a class="button" href="#">
+        <span>Logout</span>
+      </a>
+    </span>
+  </div>
+</nav>
+
+
+
+<div class="columns">
+<div class="column is-4 card" id="search-field">
+<section class="section">
+  <p class="control has-addons">
+    <span class="select">
+      <select>
+        <option>all</option>
+        <option>title</option>
+        <option>author</option>
+        <option>genre</option>
+      </select>
+    </span>
+    <input class="input is-expanded" type="text" placeholder="Search Books">
+    <a class="button is-success">
+      Search
+    </a>
+</p>
+</section>
+</div>
+<div class="column is-7 card" id="info-field">
+  <section class="section">
   <div class="show_users"></div>
   <p>Books you're selling: </p>
   <div class="show_books"></div>
   <input type="hidden" id="user-id" value={{userId}}>
-<main>
+</div>
+</div>
+
