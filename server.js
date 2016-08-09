@@ -117,7 +117,7 @@ app.get("/new", (req, res) => {
 });
 
 app.post("/new", (req, res) => {
-  res.redirect("/new");
+  res.redirect("/books/new");
 });
 
 // New book
