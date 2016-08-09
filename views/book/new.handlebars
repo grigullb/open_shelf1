@@ -4,7 +4,7 @@
   <select id="camera-select"></select>
 </div>
 <div class="scan-area" style="position: relative;display: inline-block;">
-  <canvas width="320" height="240" id="cam" style="transform: scale(1, 1);"></canvas>
+  <canvas width="320" height="240" id="cam" class="background-colorISBN" style="transform: scale(1, 1);"></canvas>
   <div class="scanner-laser laser-rightBottom" style="opacity: 0.5; display: block;"></div>
   <div class="scanner-laser laser-rightTop" style="opacity: 0.5; display: block;"></div>
   <div class="scanner-laser laser-leftBottom" style="opacity: 0.5; display: block;"></div>
@@ -13,9 +13,30 @@
 <div class="thumbnail" id="result">
   <div class="well">
   </div>
-  <div class="caption">
-      <h3>Scanned result</h3>
-      <p id="scanned-QR">Stopped</p>
+  <div>
+    <p id="scanned-QR">Stopped</p>
   </div>
 </div>
 
+<div>
+  <form action="/new" method="post" class="book-submit-form">   <!-- action needs a route -->
+    <h3>Result:</h3>
+    <label for="submit-isbn" class="label caption">ISBN:</label>
+    <input id="submit-isbn" class="input" type="text" name="isbn"><br>
+
+    <label for="submit-title" class="label">Book Title:</label>
+    <input id="submit-title" class="input" type="text" name="title"><br>
+
+    <label for="author" class="label">Author(s):</label>
+    <input id="author" class="input" type="text" name="author"><br>
+
+    <label for="submit-genre" class="label">Genre:</label>
+    <input id="submit-genre" class="input" type="text" name="genre"><br>
+
+    <input type="submit" value="Post Book">
+  </form>
+
+  <hr> 
+    <button class="book-submit-test button is-primary">EVENT: BOOK SCAN SUCCESS</button>
+  <hr>
+</div>
