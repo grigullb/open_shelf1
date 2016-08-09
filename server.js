@@ -69,8 +69,13 @@ app.get("/new", (req, res) => {
   res.render("submit");
 });
 
-app.post("/new", (req, res) =>{
-	res.redirect("/new");
+app.post("/new", (req, res) => {
+  res.redirect("/new");
+});
+
+// New book
+app.get("/books/new", (req, res) => {
+  res.render("book/new");
 });
 
 app.listen(PORT, () => {
