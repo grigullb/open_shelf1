@@ -1,12 +1,12 @@
 <main>
   <h1>Login</h1>
   <div>
-    <form action="/users/:id" method="get">   <!-- action needs a route -->
+    <form action="/login" method="post">   <!-- action needs a route -->
       <label for="login-email" class="label">Email:</label>
-      <input id="login-email" class="input" type="text"><br>
+      <input id="login-email" name="email" class="input" type="text"><br>
 
       <label for="submit-title" class="label">Password:</label>
-      <input id="submit-title" class="input" type="password"><br>
+      <input id="submit-title" name="password" class="input" type="password"><br>
 
       <input type="submit" value="Login">
     </form>
