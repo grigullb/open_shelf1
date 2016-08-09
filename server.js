@@ -26,9 +26,7 @@ const usersRoutes  = require("./routes/users");
 const booksRoutes  = require("./routes/books");
 
 // Database Models through Bookshelf
-var User = bookshelf.Model.extend({
-  tableName: 'users';
-});
+let User = require('./models/user');
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -95,9 +93,20 @@ app.get("/", (req, res)=>{
 	res.render("home");
 });
 
+//Login Page
+app.get("/login", (req, res) => {
+  res.render("login", { message: req.flash('loginMessage')});
+});
+
+app.post('/login', 
+  passport.authenticate('local', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/user/profile');
+}); 
+
 //New User Sign-Up
 app.get("/users/new", (req, res) => {
-  res.render("user/new");
+  res.render("user/new", { message: req.flash('signupMessage') });
 });
 
 app.post("users/new"), (req, res) => {
@@ -109,16 +118,18 @@ app.get("/users/:user_id", (req, res) => {
   res.render("user/profile", {userId: req.params.user_id});
 });
 
-//Login Page
-app.get("/login", (req, res) => {
-  res.render("login");
-});
+// app.get('/profile', isLoggedIn, function(req, res) {
+//       res.render('profile.ejs', {
+//           user : req.user // get the user out of session and pass to template
+//       });
+//   });
 
-app.post('/login', 
-  passport.authenticate('local', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/user/profile');
-});
+//Logout 
+// app.get('/logout', function(req, res) {
+//     req.logout();
+//     res.redirect('/');
+// });
+
 
 //New Book Submission
 app.get("/new", (req, res) => {
@@ -137,3 +148,13 @@ app.get("/books/new", (req, res) => {
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
+
+function isLoggedIn(req, res, next) {
+
+    // if user is authenticated in the session, carry on 
+    if (req.isAuthenticated())
+        return next();
+
+    // if they aren't redirect them to the home page
+    res.redirect('/');
+}
