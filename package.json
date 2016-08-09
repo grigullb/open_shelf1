@@ -13,7 +13,9 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.15.2",
+    "bookshelf": "^0.10.0",
     "bulma": "^0.1.2",
+    "connect-flash": "^0.1.1",
     "dotenv": "^2.0.0",
     "ejs": "^2.4.1",
     "express": "^4.13.4",

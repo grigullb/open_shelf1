@@ -12,16 +12,23 @@ const session      = require('express-session');
 const cookieParser = require('cookie-parser')
 const bodyParser   = require("body-parser");
 const sass         = require("node-sass-middleware");
+const flash        = require('connect-flash');
 const app          = express();
   
 const knexConfig   = require("./knexfile");
 const knex         = require("knex")(knexConfig[ENV]);
 const morgan       = require('morgan');
 const knexLogger   = require('knex-logger');
+const bookshelf    = require('bookshelf')(knex);
 
 // Seperated Routes for each Resource
 const usersRoutes  = require("./routes/users");
 const booksRoutes  = require("./routes/books");
+
+// Database Models through Bookshelf
+var User = bookshelf.Model.extend({
+  tableName: 'users';
+});
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -31,21 +38,13 @@ app.use(morgan('dev'));
 // Log knex SQL queries to STDOUT as well
 app.use(knexLogger(knex));
 
-// Cookie session requirements for passport
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true })); 
-app.use(cookieParser());
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: true,
-  saveUninitialized: true
-})); 
+// Sessions requirements for passport
 app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(new LocalStrategy(
   function(email, password, done) {
-    User.findOne({ email: email }, function (err, user) {
+    User.findWhere({ email: email }, function (err, user) {
       if (err) { return done(err); }
       if (!user) { return done(null, false); }
       if (!user.verifyPassword(password)) { return done(null, false); }
@@ -64,11 +63,20 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-
+// Cookie requirements for passport
+app.use(bodyParser.json()); 
+app.use(cookieParser());
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true
+})); 
 
 // Views and page display
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
+
+app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/styles", sass({
   src: __dirname + "/styles",
@@ -76,7 +84,6 @@ app.use("/styles", sass({
   debug: true,
   outputStyle: 'expanded'
 }));
-app.use(express.static("public"));
 
 
 // Mount all resource routes
@@ -93,6 +100,10 @@ app.get("/users/new", (req, res) => {
   res.render("user/new");
 });
 
+app.post("users/new"), (req, res) => {
+  res.redirect("users/profile")
+}
+
 //User Profile
 app.get("/users/:user_id", (req, res) => {
   res.render("user/profile", {userId: req.params.user_id});
@@ -103,11 +114,10 @@ app.get("/login", (req, res) => {
   res.render("login");
 });
 
-app.post("/login", 
+app.post('/login', 
   passport.authenticate('local', { failureRedirect: '/login' }),
   function(req, res) {
-    console.log("login success");       
-    res.redirect('/users/user_id');
+    res.redirect('/user/profile');
 });
 
 //New Book Submission
