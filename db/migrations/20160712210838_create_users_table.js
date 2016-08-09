@@ -4,15 +4,18 @@ exports.up = function(knex, Promise) {
     table.string('firstname');
     table.string('lastname');
     table.string('email');
+    table.string('password');
     table.boolean('isAdmin').defaultTo(false);
     table.timestamps();
   }).createTable('books', function(table) {
     table.increments('id').primary();
     table.string('title');
     table.string('isbn');
-    table.string('author_firstname');
-    table.string('author_lastname');
+    table.string('author_id').references('authors');
     table.integer('user_id').references('users');
+    table.integer('genre_id').references('genres');
+    table.string('condition');
+    table.boolean('isSold').defaultTo(false);
     table.timestamps();
   }).createTable('messages', function(table){
     table.increments('id').primary();
@@ -20,12 +23,34 @@ exports.up = function(knex, Promise) {
     table.integer('sender_id').references('users');
     table.integer('reciever_id').references('users');
     table.timestamps();
+  }).createTable('authors', function(table){
+    table.increments('id').primary();
+    table.string('first_name');
+    table.string('last_name');
+    table.timestamps();
+  }).createTable('genres', function(table){
+    table.increments('id').primary();
+    table.string('genre');
+    table.timestamps();
+  }).createTable('genre_interests', function(table){
+    table.increments('id').primary();
+    table.integer('user_id').references('users');
+    table.integer('genre_id').references('genre');
+    table.timestamps();
+  }).createTable('author_interests', function(table){
+    table.increments('id').primary();
+    table.integer('author_id').references('authors');
+    table.integer('user_id').references('users');
+    table.timestamps();
   });
 };
 
 exports.down = function(knex, Promise) {
   return knex.schema.dropTable('books')
     .dropTable('users')
-    .dropTable('books')
-    .dropTable('messages');
+    .dropTable('messages')
+    .dropTable('authors')
+    .dropTable('genres')
+    .dropTable('genre_interests')
+    .dropTable('author_interests');
 };
