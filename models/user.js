@@ -1,36 +1,26 @@
-const knexConfig   = require("./knexfile");
-const knex         = require("knex")(knexConfig[ENV]);
-const bookshelf    = require('bookshelf')(knex);
-const bcrypt       = require('bcrypt-nodejs');
+let Bookshelf = require('../database');
 
 // require('./books');
-var User = bookshelf.Model.extend({
+var User = Bookshelf.Model.extend({
   tableName: 'users',
-  hasTimeStamps: true.
+  hasTimeStamps: true,
 
-  initialize: function() {
-    this.on('saving', this.validateSave);
+   generateHash: function(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
   },
+  // validPassword: function(password) {
+  //   return bcrypt.compareSync(password, this.password);
+  // }
 
-  validateSave: function() {
-    return checkit(rules).run(this.attributes);
-  },
+  // testing purposes 
+  validPassword:  function(password){
+      console.log("valid password method");
+      console.log(password);
+      console.log(this.attributes.password);
+      return (password === this.attributes.password);
+  }
 
-  // Likely future implementation 
-  // books: function() {
-  //   return this.hasMany('Books');
-  // },
-}, {
-  login: Promise.method(function(email, password) {
-    if (!email || !password) throw new Error('Email and password are both required');
-    return new this({email: email.toLowerCase().trim()}).fetch({require: true}).tap(function(user) {
-      return bcrypt.compareAsync(password, user.get('password'))
-        .then(function(res) {
-          if (!res) throw new Error('Invalid password');
-        });
-    });
-  })
-});
+}); 
 
 module.exports = Bookshelf.model('User', User);
 

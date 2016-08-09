@@ -1,20 +1,21 @@
 "use strict";
 
 require('dotenv').config();
-
+require('./database');
 const PORT         = process.env.PORT || 3000;
 const ENV          = process.env.ENV || "development";
 const express      = require("express");
 const exphbs       = require('express-handlebars');
 const passport     = require('passport');
-const LocalStrategy= require('passport-local').Strategy;
 const session      = require('express-session');
 const cookieParser = require('cookie-parser')
 const bodyParser   = require("body-parser");
 const sass         = require("node-sass-middleware");
 const flash        = require('connect-flash');
+require('./config/passport')(passport);
 const app          = express();
   
+//some of this is replicated in ./database.js, can be replaced later
 const knexConfig   = require("./knexfile");
 const knex         = require("knex")(knexConfig[ENV]);
 const morgan       = require('morgan');
@@ -24,9 +25,6 @@ const bookshelf    = require('bookshelf')(knex);
 // Seperated Routes for each Resource
 const usersRoutes  = require("./routes/users");
 const booksRoutes  = require("./routes/books");
-
-// Database Models through Bookshelf
-let User = require('./models/user');
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -40,26 +38,6 @@ app.use(knexLogger(knex));
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new LocalStrategy(
-  function(email, password, done) {
-    User.findWhere({ email: email }, function (err, user) {
-      if (err) { return done(err); }
-      if (!user) { return done(null, false); }
-      if (!user.verifyPassword(password)) { return done(null, false); }
-      return done(null, user);
-    });
-  }
-));
-
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function (err, user) {
-    done(err, user);
-  });
-});
 
 // Cookie requirements for passport
 app.use(bodyParser.json()); 
@@ -95,23 +73,26 @@ app.get("/", (req, res)=>{
 
 //Login Page
 app.get("/login", (req, res) => {
-  res.render("login", { message: req.flash('loginMessage')});
+  res.render("login");
 });
 
-app.post('/login', 
-  passport.authenticate('local', { failureRedirect: '/login' }),
+app.post("/login", 
+  passport.authenticate('local-login'),
   function(req, res) {
-    res.redirect('/user/profile');
+    res.redirect('/users/' + req.user.id);
 }); 
 
 //New User Sign-Up
 app.get("/users/new", (req, res) => {
-  res.render("user/new", { message: req.flash('signupMessage') });
+  res.render("user/new");
 });
 
-app.post("users/new"), (req, res) => {
-  res.redirect("users/profile")
-}
+// process the signup form
+app.post('/signup', passport.authenticate('local-signup', {
+    successRedirect : '/users/profile', // redirect to the users profile, can implement callback instead of redirect
+    failureRedirect : '/users/new', // redirect back to the signup page if error
+    failureFlash : true // allow flash messages
+}));
 
 //User Profile
 app.get("/users/:user_id", (req, res) => {
@@ -129,7 +110,6 @@ app.get("/users/:user_id", (req, res) => {
 //     req.logout();
 //     res.redirect('/');
 // });
-
 
 //New Book Submission
 app.get("/new", (req, res) => {
@@ -149,12 +129,12 @@ app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
 
-function isLoggedIn(req, res, next) {
+// function isLoggedIn(req, res, next) {
 
-    // if user is authenticated in the session, carry on 
-    if (req.isAuthenticated())
-        return next();
+//     // if user is authenticated in the session, carry on 
+//     if (req.isAuthenticated())
+//         return next();
 
-    // if they aren't redirect them to the home page
-    res.redirect('/');
-}
+//     // if they aren't redirect them to the home page
+//     res.redirect('/');
+// }
