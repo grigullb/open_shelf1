@@ -25,6 +25,7 @@ const bookshelf    = require('bookshelf')(knex);
 // Seperated Routes for each Resource
 const usersRoutes  = require("./routes/users");
 const booksRoutes  = require("./routes/books");
+const bcrypt  = require('bcrypt-nodejs');
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -86,13 +87,6 @@ app.get("/users/new", (req, res) => {
   res.render("user/new");
 });
 
-// process the signup form
-// app.post("/users/new", 
-//   passport.authenticate('local-signup',
-//   function(req, res) {
-//     res.redirect('/users/' + req.user.id);
-// }));
-
 app.post("/users/new", passport.authenticate('local-signup', {
     successRedirect : '/', // redirect to the homepage for testing purposes
     failureRedirect : '/users/new' // redirect back to the signup page if there is an error
@@ -134,7 +128,6 @@ app.listen(PORT, () => {
 });
 
 // function isLoggedIn(req, res, next) {
-
 //     // if user is authenticated in the session, carry on 
 //     if (req.isAuthenticated())
 //         return next();

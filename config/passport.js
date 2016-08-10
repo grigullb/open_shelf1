@@ -1,4 +1,5 @@
 const LocalStrategy= require('passport-local').Strategy;
+const bcrypt  = require('bcrypt-nodejs');
 let User = require('../models/user');
 
 module.exports = function(passport) {
@@ -15,6 +16,10 @@ module.exports = function(passport) {
           done(err, user);
       });
   });
+
+  function generateHash(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+  }
 
   // name the strategy for futureproofing other authentication methods 
   passport.use('local-signup', new LocalStrategy({
@@ -36,15 +41,19 @@ module.exports = function(passport) {
               // return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
           } else {
               // if there is no user with that email, create user
-              var newUser = new User();
-              // set the user's local credentials
-              newUser.email = email;
-              newUser.password = newUser.generateHash(password);
-              // newUser.firstname = firstname;
-              // newUser.lastname = lastname;
-              //TODO: add firstname and lastname (from forms??) 
-              // save the user
-              newUser.save();
+              console.log("Preparing to make");
+              User.forge({
+                email: email, 
+                password: generateHash(password)
+              })
+              .save()
+              .then(function(newUser){
+                console.log(newUser);
+                return done(null, newUser);
+              })
+              .catch(function (err){
+                console.log(err);
+              });
           }
         });    
      });
