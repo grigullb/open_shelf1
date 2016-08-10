@@ -14,14 +14,27 @@ module.exports = (knex) => {
   });
 
   router.get("/search/:filter/:term", (req, res) => {
-    knex
-      .select("*")
-      .from(req.params.filter+"s")
-      .where('id', 1)
-      .then((results) => {
+    if (req.params.filter === 'genre'){
+      knex('books')
+      .join('genres', 'books.genre_id', '=', 'genres.id')
+      .select('books.title')
+      .where('genres.genre', req.params.term)
+      .then(function(results){
         res.json(results);
         console.log(results);
-    });
+      });
+    } 
+    if (req.params.filter === 'author'){
+      knex('books')
+      .join('authors', 'books.author_id', '=', 'authors.id')
+      .select('books.title')
+      .where('authors.first_name', req.params.term)
+      .then(function(results){
+        res.json(results);
+        console.log(results);
+      });
+    } 
+
   });
 
 	router.get("/user_books/:id", (req, res) => {

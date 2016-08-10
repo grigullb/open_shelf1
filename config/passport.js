@@ -1,3 +1,4 @@
+"use strict";
 const LocalStrategy= require('passport-local').Strategy;
 const bcrypt  = require('bcrypt-nodejs');
 let User = require('../models/user');

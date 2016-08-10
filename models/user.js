@@ -1,3 +1,4 @@
+"use strict";
 let Bookshelf = require('../database');
 
 // require('./books');
