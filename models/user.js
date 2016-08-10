@@ -5,7 +5,7 @@ var User = Bookshelf.Model.extend({
   tableName: 'users',
   hasTimeStamps: true,
 
-   generateHash: function(password) {
+  generateHash: function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
   },
   // validPassword: function(password) {
@@ -14,9 +14,6 @@ var User = Bookshelf.Model.extend({
 
   // testing purposes 
   validPassword:  function(password){
-      console.log("valid password method");
-      console.log(password);
-      console.log(this.attributes.password);
       return (password === this.attributes.password);
   }
 

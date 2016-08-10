@@ -38,7 +38,6 @@ app.use(knexLogger(knex));
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 // Cookie requirements for passport
 app.use(bodyParser.json()); 
 app.use(cookieParser());
