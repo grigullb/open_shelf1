@@ -10,6 +10,7 @@ module.exports = function(passport) {
 
   // used to deserialize the user
   passport.deserializeUser(function(id, done) {
+      //TODO: verify findById is a valid query (source is Mongo, Bookshelf equivalent?)
       User.findById(id, function(err, user) {
           done(err, user);
       });
@@ -21,32 +22,32 @@ module.exports = function(passport) {
       usernameField : 'email',
       passwordField : 'password',
       passReqToCallback : true // allows passing back the entire request to the callback
-  },
-  function(req, email, password, done) {
+  }, 
+  function(req, email, password, done) {  //is this from the form data?
       // asynchronous
       // User.where wont fire unless data is sent back
       process.nextTick(function() {
       // find a user whose email is the same as the forms email
       // we are checking to see if the user trying to login already exists
-      User.where({ 'email':  email }), function(user) {
+      User.where({ 'email':  email }).fetch().then( function(user) {
           // check to see if theres already a user with that email
           if (user) {
-              return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+              return done(null, false); 
+              // return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
           } else {
               // if there is no user with that email, create user
               var newUser = new User();
               // set the user's local credentials
               newUser.email = email;
               newUser.password = newUser.generateHash(password);
+              // newUser.firstname = firstname;
+              // newUser.lastname = lastname;
+              //TODO: add firstname and lastname (from forms??) 
               // save the user
-              newUser.save(function(err) {
-                  if (err)
-                      throw err;
-                  return done(null, newUser);
-              });
+              newUser.save();
           }
-      });    
-      });
+        });    
+     });
   }));
 
   passport.use('local-login', new LocalStrategy({
@@ -68,4 +69,4 @@ module.exports = function(passport) {
       });
 
   }));
-};
+}

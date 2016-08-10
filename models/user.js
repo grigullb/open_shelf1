@@ -1,4 +1,5 @@
 let Bookshelf = require('../database');
+const bcrypt  = require('bcrypt-nodejs');
 
 // require('./books');
 var User = Bookshelf.Model.extend({
@@ -8,9 +9,12 @@ var User = Bookshelf.Model.extend({
   generateHash: function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
   },
+  
   // validPassword: function(password) {
-  //   return bcrypt.compareSync(password, this.password);
-  // }
+  //   console.log(password);
+  //   console.log(this.attributes.password);
+  //   return bcrypt.compareSync(password, this.attributes.password);
+  // },
 
   // testing purposes 
   validPassword:  function(password){

@@ -87,10 +87,15 @@ app.get("/users/new", (req, res) => {
 });
 
 // process the signup form
-app.post('/signup', passport.authenticate('local-signup', {
-    successRedirect : '/users/profile', // redirect to the users profile, can implement callback instead of redirect
-    failureRedirect : '/users/new', // redirect back to the signup page if error
-    failureFlash : true // allow flash messages
+// app.post("/users/new", 
+//   passport.authenticate('local-signup',
+//   function(req, res) {
+//     res.redirect('/users/' + req.user.id);
+// }));
+
+app.post("/users/new", passport.authenticate('local-signup', {
+    successRedirect : '/', // redirect to the homepage for testing purposes
+    failureRedirect : '/users/new' // redirect back to the signup page if there is an error
 }));
 
 //User Profile
@@ -104,11 +109,11 @@ app.get("/users/:user_id", (req, res) => {
 //       });
 //   });
 
-//Logout 
-// app.get('/logout', function(req, res) {
-//     req.logout();
-//     res.redirect('/');
-// });
+// Logout is handled by passport req.logout
+app.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+});
 
 //New Book Submission
 app.get("/new", (req, res) => {
