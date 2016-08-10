@@ -52,6 +52,9 @@ app.use(session({
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
+// Flash message middleware
+app.use(flash());
+
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/styles", sass({
@@ -73,18 +76,22 @@ app.get("/", (req, res)=>{
 
 //Login Page
 app.get("/login", (req, res) => {
-  res.render("login");
+  res.render("login", { messages: req.flash('loginMessage')});
 });
 
 app.post("/login", 
-  passport.authenticate('local-login'),
+  passport.authenticate('local-login', { 
+    failureRedirect : '/login',
+    failureFlash: true 
+  }),
   function(req, res) {
     res.redirect('/users/' + req.user.id);
-}); 
+  });
+
 
 //New User Sign-Up
 app.get("/users/new", (req, res) => {
-  res.render("user/new");
+  res.render("user/new", { messages: req.flash('signupMessage') });
 });
 
 app.post("/users/new", passport.authenticate('local-signup', {

@@ -4,6 +4,7 @@ const bcrypt  = require('bcrypt-nodejs');
 let User = require('../models/user');
 
 module.exports = function(passport) {
+
   //bcrypt function to generate salted password
   function generateHash(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
@@ -15,10 +16,6 @@ module.exports = function(passport) {
   });
 
   passport.deserializeUser(function(id, done) {
-      //TODO: verify findById is a valid query (source is Mongo, Bookshelf equivalent?)
-      // User.findById(id, function(err, user) {
-      //     done(err, user);
-      // });
       User.where({ 'id':  id }).fetch().then( function(err, user) {
           done(err, user);
       });
@@ -31,6 +28,7 @@ module.exports = function(passport) {
       passwordField : 'password',
       passReqToCallback : true // allows passing the HTTP request into the callback 
   }, 
+  // function passed as strategy to passport
   // fields passed from the form input tag with a corresponding name
   function(req, email, password, done) { 
       // asynchronous
@@ -40,8 +38,7 @@ module.exports = function(passport) {
       User.where({ 'email':  email }).fetch().then( function(user) {
           // check to see if theres already a user with that email
           if (user) {
-              return done(null, false); 
-              // TODO: flash messages. return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+              return done(null, false, req.flash('signupMessage', 'That email is already taken.')); 
           } else {
               // if there is no user with that email, create user
               User.forge({
@@ -76,8 +73,7 @@ module.exports = function(passport) {
       // find a user whose email is the same as the forms email
       User.where({ 'email':  email }).fetch().then( function(user) {
           if (!user || !user.validPassword(password)) {
-              return done(null, false);
-              // TODO: flash message .return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
+              return done(null, false, req.flash('loginMessage', 'No user found.'));
           }
           return done(null, user); // all is well, return successful user
       });
