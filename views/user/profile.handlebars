@@ -47,7 +47,14 @@
 
 
 <div class="columns">
-<div class="column is-4 card" id="search-field">
+<div class="column is-4 card" id="info-field">
+  <section class="section">
+  <div class="show_users"></div>
+  <p>Books you're selling: </p>
+  <div class="show_books"></div>
+  <input type="hidden" id="user-id" value={{userId}}>
+</div>
+<div class="column is-7 card" id="search-field">
 <section class="section">
   <p class="control has-addons">
     <span class="select">
@@ -65,13 +72,6 @@
 <div id="search-field-results">
 </div>
 </section>
-</div>
-<div class="column is-7 card" id="info-field">
-  <section class="section">
-  <div class="show_users"></div>
-  <p>Books you're selling: </p>
-  <div class="show_books"></div>
-  <input type="hidden" id="user-id" value={{userId}}>
 </div>
 </div>
 
