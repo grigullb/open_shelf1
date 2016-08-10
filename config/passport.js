@@ -1,4 +1,5 @@
 const LocalStrategy= require('passport-local').Strategy;
+const bcrypt  = require('bcrypt-nodejs');
 let User = require('../models/user');
 
 module.exports = function(passport) {
@@ -10,10 +11,15 @@ module.exports = function(passport) {
 
   // used to deserialize the user
   passport.deserializeUser(function(id, done) {
+      //TODO: verify findById is a valid query (source is Mongo, Bookshelf equivalent?)
       User.findById(id, function(err, user) {
           done(err, user);
       });
   });
+
+  function generateHash(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+  }
 
   // name the strategy for futureproofing other authentication methods 
   passport.use('local-signup', new LocalStrategy({
@@ -21,41 +27,36 @@ module.exports = function(passport) {
       usernameField : 'email',
       passwordField : 'password',
       passReqToCallback : true // allows passing back the entire request to the callback
-  },
-  function(req, email, password, done) {
+  }, 
+  function(req, email, password, done) {  //is this from the form data?
       // asynchronous
-      // User.findOne wont fire unless data is sent back
+      // User.where wont fire unless data is sent back
       process.nextTick(function() {
-
       // find a user whose email is the same as the forms email
       // we are checking to see if the user trying to login already exists
-      User.where({ 'email' :  email }, function(err, user) {
-          // if there are any errors, return the error
-          if (err)
-              return done(err);
-
+      User.where({ 'email':  email }).fetch().then( function(user) {
           // check to see if theres already a user with that email
           if (user) {
-              return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+              return done(null, false); 
+              // return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
           } else {
-
-              // if there is no user with that email
-              // create the user
-              var newUser            = new User();
-
-              // set the user's local credentials
-              newUser.email    = email;
-              newUser.password = newUser.generateHash(password);
-
-              // save the user
-              newUser.save(function(err) {
-                  if (err)
-                      throw err;
-                  return done(null, newUser);
+              // if there is no user with that email, create user
+              console.log("Preparing to make");
+              User.forge({
+                email: email, 
+                password: generateHash(password)
+              })
+              .save()
+              .then(function(newUser){
+                console.log(newUser);
+                return done(null, newUser);
+              })
+              .catch(function (err){
+                console.log(err);
               });
           }
-      });    
-      });
+        });    
+     });
   }));
 
   passport.use('local-login', new LocalStrategy({
@@ -70,7 +71,6 @@ module.exports = function(passport) {
       User.where({ 'email':  email }).fetch().then( function(user) {
           console.log(user);
           if (!user || !user.validPassword(password)) {
-              console.log("not valid pw");
               return done(null, false);
               // return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
           }// all is well, return successful user
@@ -78,4 +78,4 @@ module.exports = function(passport) {
       });
 
   }));
-};
+}

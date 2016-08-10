@@ -25,6 +25,7 @@ const bookshelf    = require('bookshelf')(knex);
 // Seperated Routes for each Resource
 const usersRoutes  = require("./routes/users");
 const booksRoutes  = require("./routes/books");
+const bcrypt  = require('bcrypt-nodejs');
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -37,7 +38,6 @@ app.use(knexLogger(knex));
 // Sessions requirements for passport
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 // Cookie requirements for passport
 app.use(bodyParser.json()); 
@@ -87,11 +87,9 @@ app.get("/users/new", (req, res) => {
   res.render("user/new");
 });
 
-// process the signup form
-app.post('/signup', passport.authenticate('local-signup', {
-    successRedirect : '/users/profile', // redirect to the users profile, can implement callback instead of redirect
-    failureRedirect : '/users/new', // redirect back to the signup page if error
-    failureFlash : true // allow flash messages
+app.post("/users/new", passport.authenticate('local-signup', {
+    successRedirect : '/', // redirect to the homepage for testing purposes
+    failureRedirect : '/users/new' // redirect back to the signup page if there is an error
 }));
 
 //User Profile
@@ -105,11 +103,11 @@ app.get("/users/:user_id", (req, res) => {
 //       });
 //   });
 
-//Logout 
-// app.get('/logout', function(req, res) {
-//     req.logout();
-//     res.redirect('/');
-// });
+// Logout is handled by passport req.logout
+app.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+});
 
 //New Book Submission
 app.get("/new", (req, res) => {
@@ -130,7 +128,6 @@ app.listen(PORT, () => {
 });
 
 // function isLoggedIn(req, res, next) {
-
 //     // if user is authenticated in the session, carry on 
 //     if (req.isAuthenticated())
 //         return next();
