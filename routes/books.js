@@ -17,7 +17,7 @@ module.exports = (knex) => {
     if (req.params.filter === 'genre'){
       knex('books')
       .join('genres', 'books.genre_id', '=', 'genres.id')
-      .select('books.title')
+      .select('books.title', 'books.id')
       .where('genres.genre', 'like','%'+req.params.term+'%')
       .then(function(results){
         res.json(results);
@@ -27,7 +27,7 @@ module.exports = (knex) => {
     if (req.params.filter === 'author'){
       knex('books')
       .join('authors', 'books.author_id', '=', 'authors.id')
-      .select('books.title')
+      .select('books.title', 'books.id')
       .where('authors.first_name', 'like','%'+req.params.term+'%')
       .orWhere('authors.first_name', 'like','%'+req.params.term+'%')
       .then(function(results){
@@ -37,7 +37,7 @@ module.exports = (knex) => {
     } 
     if (req.params.filter === 'title'){
       knex('books')
-      .select('books.title')
+      .select('books.title', 'books.id')
       .where('books.title', 'like','%'+req.params.term+'%')
       .then(function(results){
         res.json(results);
