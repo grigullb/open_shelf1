@@ -10,7 +10,7 @@ $(() => {
       url: "/api/books/search/" + filter +"/"+ search_term
       }).done((books) => {
         for(book of books) {
-          
+          $("#search-field").append('<p>'+book.title+'</p>');
         }
       });
     });
