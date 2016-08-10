@@ -11,7 +11,7 @@ exports.up = function(knex, Promise) {
     table.increments('id').primary();
     table.string('title');
     table.string('isbn');
-    table.string('author_id').references('authors');
+    table.integer('author_id').references('authors');
     table.integer('user_id').references('users');
     table.integer('genre_id').references('genres');
     table.string('condition');
