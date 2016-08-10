@@ -42,10 +42,12 @@ module.exports = function(passport) {
               // return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
           } else {
               // if there is no user with that email, create user
-              console.log("Preparing to make");
               User.forge({
+                //refers to the name attr on form inputs
+                firstname: req.body.firstname,     
+                lastname: req.body.lastname, 
                 email: email, 
-                password: generateHash(password)
+                password: generateHash(password),
               })
               .save()
               .then(function(newUser){
