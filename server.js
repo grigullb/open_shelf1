@@ -82,14 +82,13 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", 
-  passport.authenticate('local-login', { 
-    failureRedirect : '/login',
-    failureFlash: true 
-  }),
-  function(req, res) {
-    res.redirect('/users/' + req.user.id);
-  });
-
+ passport.authenticate('local-login', { 
+   failureRedirect : '/login',
+   failureFlash: true 
+ }),
+ function(req, res) {
+   res.redirect('/users/' + req.user.id);
+});
 
 //New User Sign-Up
 app.get("/users/new", (req, res) => {
@@ -101,11 +100,6 @@ app.post("/users/new", passport.authenticate('local-signup', {
     failureRedirect : '/users/new' // redirect back to the signup page if there is an error
 }));
 
-//User Profile
-app.get("/users/:user_id", isLoggedIn, logg(req, res) => {
-  req.params.user_id == session[:user_id]
-  res.render("user/profile", {userId: req.params.user_id});
-});
 
 app.get('/profile', isLoggedIn, function(req, res) {
       res.render('profile.ejs', {
@@ -139,9 +133,10 @@ app.listen(PORT, () => {
 
 function isLoggedIn(req, res, next) {
     // if user is authenticated in the session, carry on 
-    if (req.isAuthenticated())
+    if (req.isAuthenticated()) {
         return next();
-
+    } else {
     // if they aren't redirect them to the home page
-    res.redirect('/');
+    res.redirect('/login');
+  }
 }
