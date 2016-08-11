@@ -9,7 +9,16 @@ module.exports = (knex) => {
     knex('messages').insert({text: req.body.text, sender_id: req.body.senderId, reciever_id: req.body.receiverId})
       .then( function (result) {
           res.json({ success: true, message: 'ok' });     // respond back to request
-       });
+  });
+});
+  router.get("/:id", (req, res) => {
+    knex
+      .select("*")
+      .from("messages")
+      .where('reciever_id', req.params.id)
+      .then((results) => {
+        res.json(results);
+    });
   });
 
 	return router;
