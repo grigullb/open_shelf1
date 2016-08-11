@@ -19,6 +19,8 @@ exports.up = function(knex, Promise) {
     table.timestamps();
   }).createTable('messages', function(table){
     table.increments('id').primary();
+    table.string('subject');
+    table.boolean('read').defaultTo(false);
     table.string('text');
     table.integer('sender_id').references('users');
     table.integer('reciever_id').references('users');
