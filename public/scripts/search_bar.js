@@ -22,8 +22,8 @@ $(() => {
 
     $(document).on("click", ".book_select",function(event){
       var this_book_id = $(this).data("idbook");
-      addDim();
-      addPopup();
+      $('#info-field').empty();
+      $("#search-field-results").empty();
       $.ajax({
       method: "GET",
       url: "/api/books/user_books/"+this_book_id
@@ -50,25 +50,25 @@ $(() => {
                     var image = results.imageLinks.thumbnail
                   }  //smallThumbnail also available, both are URL links
                   var genre = results.categories[0]; //array 
-                  if($('#search_book_info').is(':empty')){
-                    $('#search_book_info').append('<p>'+book_title+'</p>');
+                  if($('#info-field').is(':empty')){
+                    $('#info-field').append('<p>'+book_title+'</p>');
                     if (author){
-                      $('#search_book_info').append('<p>'+author+'</p>');
+                      $('#info-field').append('<p>'+author+'</p>');
                     }
                     if(image){
-                      $('#search_book_info').append('<img src="'+image+'">');
+                      $('#info-field').append('<img src="'+image+'">');
                     } else{
-                      $('#search_book_info').append('<p>&nbsp no image</p>');
+                      $('#info-field').append('<p>&nbsp no image</p>');
                     }
-                    $('#search_book_info').append('<p>Genre: '+genre+'</p>');
+                    $('#info-field').append('<p>Genre: '+genre+'</p>');
                     if(page_count){
-                      $('#search_book_info').append('<p>Pages: '+page_count+'</p>');
+                      $('#info-field').append('<p>Pages: '+page_count+'</p>');
                     }
-                    $('#search_book_info').append('<p><em>'+book_owner+'</em> is the owner of this Book. Message <em>'+book_owner+'</em> to show your interested in the book</p>');
-                    $('#search_book_info').append('<textarea id="message_field"></textarea>');
-                    $('#search_book_info').append('<button id="message_submit_button">Submit</button>');
+                    $('#info-field').append('<p><em>'+book_owner+'</em> is the owner of this Book. Message <em>'+book_owner+'</em> to show your interested in the book</p>');
+                    $('#info-field').append('<textarea id="message_field"></textarea>');
+                    $('#info-field').append('<button id="message_submit_button">Submit</button>');
                   } else {
-                    $('#search_book_info').empty();
+                    $('#info-field').empty();
                   }
 
                  } 
