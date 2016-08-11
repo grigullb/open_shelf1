@@ -12,8 +12,7 @@ $(() => {
       }
     }
     if(e.keyCode == 27){
-      $('#msg_overlay').remove();
-      $('#search_book_info').remove();
+      removeDim();
     }
     })
     $(".is-success").on("click",function(){
@@ -110,40 +109,10 @@ function runSearch(search_term){
         }
       });
 }
-function addDim(){
-  $('#search_book_info').remove();
-      $('<div id="msg_overlay">').css({
-      "width" : "100%"
-    , "height" : "100%"
-    , "background" : "#000"
-    , "position" : "fixed"
-    , "top" : "0"
-    , "left" : "0"
-    , "z-index" : 2
-    , "MsFilter" : "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)"
-    , "filter" : "alpha(opacity=60)"
-    , "MozOpacity" : 0.6
-    , "KhtmlOpacity" : 0.6
-    , "opacity" : 0.6
-    }).appendTo(document.body);
-}
-
-function addPopup(){
-  $('<div id="search_book_info" class="card">').css({
-      "width" : "50%"
-    , "height" : "50%"
-    , "background" : "#ffffff"
-    , "position" : "fixed"
-    , "top" : "50%"
-    , "left" : "50%"
-    , "z-index" : 3
-    ,'-webkit-transform': 'translate(-50%, -50%)'
-    }).appendTo(document.body);
-}
 
 function removeDim(){
   $('#msg_overlay').remove();
-  $('#search_book_info').css('position', 'absolute').css('top', '65%');
+  $('#display_messages').remove();
 }
 
 
