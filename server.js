@@ -25,6 +25,7 @@ const bookshelf    = require('bookshelf')(knex);
 // Seperated Routes for each Resource
 const usersRoutes  = require("./routes/users");
 const booksRoutes  = require("./routes/books");
+const messagesRoutes  = require("./routes/messages");
 const bcrypt  = require('bcrypt-nodejs');
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
@@ -68,6 +69,7 @@ app.use("/styles", sass({
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
 app.use("/api/books", booksRoutes(knex));
+app.use("/api/messages", messagesRoutes(knex));
 
 // Home page
 app.get("/", (req, res)=>{
