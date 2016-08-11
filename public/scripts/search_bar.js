@@ -84,15 +84,17 @@ $(() => {
     $(document).on("click", "#message_submit_button", function() {
         var message_text = $("#message_field").val();
         var userId = $('#user-id').val();
-        var message_content = {text: message_text, senderId: userId, receiverId: book_owner_id};
+        var subject = $('#info-field > p').first().text();
+        var message_content = {text: message_text, senderId: userId, receiverId: book_owner_id, subject: subject};
+        console.log(message_content);
         $.ajax({
-        type: "POST",
-        url: "/api/messages",
-        data: message_content,
-        success: (data)=>{
-          console.log(data);
-        }
-      });
+          type: "POST",
+          url: "/api/messages",
+          data: message_content,
+          success: (data)=>{
+            console.log(data);
+          }
+        });
     });
 });
 
