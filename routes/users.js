@@ -20,7 +20,7 @@ module.exports = (knex) => {
   router.get("/books/:bookid", (req, res) => {
     knex('users')
       .join('books', 'users.id', '=', 'books.user_id')
-      .select('users.firstname')
+      .select('users.firstname', 'users.id')
       .where('books.id', req.params.bookid)
       .then(function(results){
         console.log(results);

@@ -35,6 +35,7 @@ $(() => {
           }).done((users) => {
             for(user of users){
               var book_owner = user.firstname;
+              book_owner_id = user.id;
               $.ajax({
                 url: "https://www.googleapis.com/books/v1/volumes?q=isbn:"+this_isbn, 
                 method: "get",
@@ -64,8 +65,8 @@ $(() => {
                       $('#search_book_info').append('<p>Pages: '+page_count+'</p>');
                     }
                     $('#search_book_info').append('<p><em>'+book_owner+'</em> is the owner of this Book. Message <em>'+book_owner+'</em> to show your interested in the book</p>');
-                    $('#search_book_info').append('<textarea></textarea>');
-                    $('#search_book_info').append('<button>Submit</button>');
+                    $('#search_book_info').append('<textarea id="message_field"></textarea>');
+                    $('#search_book_info').append('<button id="message_submit_button">Submit</button>');
                   } else {
                     $('#search_book_info').empty();
                   }
@@ -80,6 +81,19 @@ $(() => {
 
     $(document).on("click", "#msg_overlay",function(event){
       removeDim();
+    });
+    $(document).on("click", "#message_submit_button", function() {
+        var message_text = $("#message_field").val();
+        var userId = $('#user-id').val();
+        var message_content = {text: message_text, senderId: userId, receiverId: book_owner_id};
+        $.ajax({
+        type: "POST",
+        url: "/api/messages",
+        data: message_content,
+        success: (data)=>{
+          console.log(data);
+        }
+      });
     });
 });
 
