@@ -102,15 +102,16 @@ app.post("/users/new", passport.authenticate('local-signup', {
 }));
 
 //User Profile
-app.get("/users/:user_id", (req, res) => {
+app.get("/users/:user_id", isLoggedIn, logg(req, res) => {
+  req.params.user_id == session[:user_id]
   res.render("user/profile", {userId: req.params.user_id});
 });
 
-// app.get('/profile', isLoggedIn, function(req, res) {
-//       res.render('profile.ejs', {
-//           user : req.user // get the user out of session and pass to template
-//       });
-//   });
+app.get('/profile', isLoggedIn, function(req, res) {
+      res.render('profile.ejs', {
+          user : req.user // get the user out of session and pass to template
+      });
+  });
 
 // Logout is handled by passport req.logout
 app.get('/logout', function(req, res) {
