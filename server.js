@@ -102,8 +102,12 @@ app.post("/users/new", passport.authenticate('local-signup', {
 }));
 
 //User Profile
-app.get("/users/:user_id", isLoggedIn, logg(req, res) => {
-  req.params.user_id == session[:user_id]
+// app.get("/users/:user_id", isLoggedIn, logg(req, res) => {
+//   req.params.user_id == session[:user_id]
+//   res.render("user/profile", {userId: req.params.user_id});
+// });
+
+app.get("/users/:user_id", (req, res) => {
   res.render("user/profile", {userId: req.params.user_id});
 });
 
