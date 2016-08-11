@@ -7,7 +7,7 @@ module.exports = (knex) => {
   router.post("/", (req, res) =>{
     console.log('submitting book');
     console.log(req.body.title);
-    knex('books').insert({title: req.body.title, id: 12})
+    knex('books').insert({title: req.body.title})
       .then( function (result) {
           res.json({ success: true, message: 'ok' });     // respond back to request
        });
