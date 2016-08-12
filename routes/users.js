@@ -49,5 +49,13 @@ module.exports = (knex) => {
     });
   });
 
+  router.post("/interests", (req, res) => {
+    console.log(req.body);
+    knex('user_interests').insert({type: req.body.interest_type, interest: req.body.int_input, user_id: req.body.this_user_id})
+      .then( function (result) {
+          res.json({ success: true, message: 'interest added' });     // respond back to request
+    });
+  });
+
   return router;
 }
