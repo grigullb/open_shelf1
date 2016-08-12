@@ -122,18 +122,14 @@ app.get('/logout', function(req, res) {
 });
 
 //New Book Submission
-app.get("/new", (req, res) => {
-  res.render("submit");
-});
-
-app.post("/new", (req, res) => {
-  res.redirect("/books/new");
-});
-
-// New book
 app.get("/books/new", (req, res) => {
   res.render("book/new");
 });
+
+app.post("/books/new", (req, res) => {
+  res.redirect("/books/new");
+});
+
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);

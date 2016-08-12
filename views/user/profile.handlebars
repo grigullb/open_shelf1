@@ -51,34 +51,35 @@
 </nav>
 
 
+<section class="container">
+  <div class="columns">
+    <div class="column is-one-third" id="search-field">
+      <section class="section">
+        <p class="control has-addons">
+          <span class="select">
+            <select class="filter">
+              <option>title</option>
+              <option>author</option>
+              <option>genre</option>
+            </select>
+          </span>
+          <input class="input is-expanded" type="text" placeholder="Search Books">
+          <a class="button is-success">Search</a>
+        </p>
+        <div id="search-field-results">
+        </div>
+      </section>
+    </div>
 
-<div class="columns">
-<div class="column is-4 card" id="search-field">
-<section class="section">
-  <p class="control has-addons">
-    <span class="select">
-      <select class="filter">
-        <option>title</option>
-        <option>author</option>
-        <option>genre</option>
-      </select>
-    </span>
-    <input class="input is-expanded" type="text" placeholder="Search Books">
-    <a class="button is-success">
-      Search
-    </a>
-</p>
-<div id="search-field-results">
-</div>
+    <div class="column is-two-thirds" id="info-field">
+      <section class="section">
+      <div class="show_users title is-5"></div>
+      <p class="subtitle is-5">Books you are offering: </p>
+      <div class="show_books"></div>
+      </section>
+    </div>
+  </div>
 </section>
-</div>
-<div class="column is-7 card" id="info-field">
-  <section class="section">
-  <div class="show_users"></div>
-  <p>Books you are offering: </p>
-  <div class="show_books"></div>
-</div>
-</div>
 
 <input type="hidden" id="user-id" value={{userId}}>
 
