@@ -13,21 +13,23 @@
   <section class="columns">
     <div class="column">
     </div>
+
     <div class="column is-half">
       <div class="box">
-      <form action="/login" method="post">   <!-- action needs a route -->
-        <label for="login-email" class="label">Email:</label>
-        <p class="control">
-          <input id="login-email" name="email" class="input" type="text" placeholder="name@email.com">
-        </p>
+        <form action="/login" method="post">   <!-- action needs a route -->
+          <label for="login-email" class="label">Email:</label>
+          <p class="control">
+            <input id="login-email" name="email" class="input" type="text" placeholder="name@email.com">
+          </p>
 
-        <label for="submit-title" class="label">Password:</label>
-        <p class="control">
-          <input id="submit-title" name="password" class="input" type="password" placeholder="securepassword">
-        </p>
-        <input type="submit" value="Login" class="button is-primary"class="button is-primary">
-      </form>
-    </div>
+          <label for="submit-title" class="label">Password:</label>
+          <p class="control">
+            <input id="submit-title" name="password" class="input" type="password" placeholder="securepassword">
+          </p>
+
+          <input type="submit" value="Login" class="button is-primary">
+        </form>
+      </div>
     <br>
     
     <div>  <!-- these could probably be button tags - testing something with forms/submits -->
@@ -42,6 +44,7 @@
       </form> 
       </div>
     </div>
+
     <div class="column">
     </div>
   </section>

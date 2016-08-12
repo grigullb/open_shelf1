@@ -11,7 +11,6 @@ module.exports = function(passport) {
   }
   // passport session setup
   passport.serializeUser(function(user, done) {
-      console.log(user);
       done(null, user.id);
   });
 
@@ -51,7 +50,6 @@ module.exports = function(passport) {
               .save()
               //return the newUser object
               .then(function(newUser){
-                console.log(newUser);
                 return done(null, newUser);
               })
               .catch(function (err){
@@ -71,10 +69,11 @@ module.exports = function(passport) {
   },
   function(req, email, password, done) { 
       // find a user whose email is the same as the forms email
-      User.where({ 'email':  email }).fetch().then( function(user) {
+      User.where({ email:  email }).fetch().then( function(user) {
           if (!user || !user.validPassword(password)) {
               return done(null, false, req.flash('loginMessage', 'No user found.'));
           }
+          console.log("Found the user!");
           return done(null, user); // all is well, return successful user
       });
   }));

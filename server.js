@@ -85,10 +85,10 @@ app.post("/login",
   passport.authenticate('local-login', { 
     failureRedirect : '/login',
     failureFlash: true 
-  }),
+  }), isLoggedIn,
   function(req, res) {
-    res.redirect('/users/' + req.user.id);
-  });
+    res.render('user/profile');
+});
 
 
 //New User Sign-Up
@@ -108,13 +108,13 @@ app.post("/users/new", passport.authenticate('local-signup', {
 // });
 
 app.get("/users/:user_id", (req, res) => {
-  res.render("user/profile", {userId: req.params.user_id});
+  res.render("user/profile");
 });
-// app.get('/profile', isLoggedIn, function(req, res) {
-//       res.render('profile.ejs'), {
-//           user : req.user // get the user out of session and pass to template
-//       });
-//   });
+
+
+// app.get('/users/:user_id', isLoggedIn, function(req, res, next) {
+//  res.render("users/profile");
+// });
 
 // Logout is handled by passport req.logout
 app.get('/logout', function(req, res) {
@@ -142,8 +142,10 @@ app.listen(PORT, () => {
 
 function isLoggedIn(req, res, next) {
     // if user is authenticated in the session, carry on 
-    if (req.isAuthenticated())
-        return next();
+    if (req.isAuthenticated()){
+       return next();
+    } else {
+       res.redirect('/');
+    }
     // if they aren't redirect them to the home page
-    res.redirect('/');
 }
