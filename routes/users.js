@@ -28,22 +28,11 @@ module.exports = (knex) => {
       });
   });
 
-  router.get("/genre_preferences/:userid", (req, res) => {
-    knex('genres')
-      .join('genre_interests', 'genres.id', '=', 'genre_interests.genre_id')
-      .select('genres.genre')
-      .where('genre_interests.user_id', req.params.userid)
-      .then(function(results){
-        console.log(results);
-        res.json(results);
-      });
-  });
-
-  router.get("/author_preferences/:userid", (req, res) => {
-    knex('authors')
-      .join('author_interests', 'authors.id', '=', 'author_interests.author_id')
-      .select('authors.first_name', 'authors.last_name')
-      .where('author_interests.user_id', req.params.userid)
+  router.get("/interests/:userid", (req, res) => {
+    knex('users')
+      .join('user_interests', 'users.id', '=', 'user_interests.user_id')
+      .select('user_interests.type', 'user_interests.interest')
+      .where('user_interests.user_id', req.params.userid)
       .then(function(results){
         console.log(results);
         res.json(results);

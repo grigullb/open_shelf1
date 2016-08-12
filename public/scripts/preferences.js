@@ -1,35 +1,32 @@
 $(() => {
 	var userId = $('#user-id').val();
 	$('#preferences').on('click', function(){
-		getGenres(userId);
-		getAuthors(userId);
+		getInterests(userId);
 		$('#info-field').empty();
 		$('#info-field').append('<section id="notif_info" class="section"></section>')
-		$('#notif_info').append('<div id="author_interest"><p>Notify me when books by these authors are posted: </p></div>');
-		$('#notif_info').append('<div id="genre_interest"><p>Notify me when books with these genres are posted: </p></div>');
+		$('#notif_info').append('<div id="author_interest"><p>You will be notified when books related to these interests are posted: </p></div>');
+		$('#notif_info').append('<p id="show_titles">Titles: </p>');
+		$('#notif_info').append('<p id="show_authors">Authors: </p>');
+		$('#notif_info').append('<p id="show_genres">Genres: </p>');
 		$('#notif_info').append('<br><a id="change_preferences">Change Notification Preferences</a>');
 	});
 });
 
-function getGenres(userId){
+function getInterests(userId){
 	$.ajax({
 	    method: "GET",
-	    url: "/api/users/genre_preferences/" + userId
-	  }).done((genres) => {
-	    for(genre of genres) {
-	    	$('#genre_interest').append('<ul id="show_genres"></ul>')
-	      $('#show_genres').append('<li>&ensp;&ensp;&ensp;'+genre.genre+'</li>')
-	    }
-	});
-}
-function getAuthors(userId){
-	$.ajax({
-	    method: "GET",
-	    url: "/api/users/author_preferences/" + userId
-	  }).done((authors) => {
-	    for(author of authors) {
-	    	$('#author_interest').append('<ul id="show_authors"></ul>')
-	      $('#show_authors').append('<li>&ensp;&ensp;&ensp;'+author.first_name+' '+author.last_name+'</li>')
+	    url: "/api/users/interests/" + userId
+	  }).done((interests) => {
+	    for(interest of interests) {
+	    	if(interest.type === 'genre'){
+	    		$('#show_genres').append('<p>&nbsp;&nbsp;'+interest.interest+'</p>');
+	    	}
+	    	if(interest.type === 'title'){
+	    		$('#show_titles').append('<p>&nbsp;&nbsp;'+interest.interest+'</p>');
+	    	}
+	    	if(interest.type === 'author'){
+	    		$('#show_authors').append('<p>&nbsp;&nbsp;'+interest.interest+'</p>');
+	    	}
 	    }
 	});
 }
