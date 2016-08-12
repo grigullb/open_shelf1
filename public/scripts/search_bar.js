@@ -28,6 +28,7 @@ $(() => {
       url: "/api/books/user_books/"+this_book_id
       }).done((book) => {
         var this_isbn = book[0].isbn;
+        var book_condition = book[0].condition;
         $.ajax({
           method: "GET",
           url: "/api/users/books/"+this_book_id
@@ -63,6 +64,7 @@ $(() => {
                     if(page_count){
                       $('#info-field').append('<p>Pages: '+page_count+'</p>');
                     }
+                    $('#info-field').append('<p>Description: '+book_condition+'</p>');
                     $('#info-field').append('<p><em>'+book_owner+'</em> is the owner of this Book. Message <em>'+book_owner+'</em> to show your interested in the book</p>');
                     $('#info-field').append('<textarea id="message_field"></textarea>');
                     $('#info-field').append('<button id="message_submit_button">Submit</button>');

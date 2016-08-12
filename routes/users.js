@@ -28,6 +28,28 @@ module.exports = (knex) => {
       });
   });
 
+  router.get("/genre_preferences/:userid", (req, res) => {
+    knex('genres')
+      .join('genre_interests', 'genres.id', '=', 'genre_interests.genre_id')
+      .select('genres.genre')
+      .where('genre_interests.user_id', req.params.userid)
+      .then(function(results){
+        console.log(results);
+        res.json(results);
+      });
+  });
+
+  router.get("/author_preferences/:userid", (req, res) => {
+    knex('authors')
+      .join('author_interests', 'authors.id', '=', 'author_interests.author_id')
+      .select('authors.first_name', 'authors.last_name')
+      .where('author_interests.user_id', req.params.userid)
+      .then(function(results){
+        console.log(results);
+        res.json(results);
+      });
+  });
+
   router.get("/:id", (req, res) => {
     knex
       .select("*")

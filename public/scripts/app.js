@@ -1,3 +1,5 @@
+
+    
 $(() => {
   var userId = $('#user-id').val();
   showUserBooks(userId);
@@ -30,7 +32,6 @@ $(() => {
           }  //smallThumbnail also available, both are URL links
           var genre = results.categories[0]; //array 
           if($('div').filter('[data-bookid="'+this_book_id+'"]').is(':empty')){
-            $('div').filter('[data-bookid="'+this_book_id+'"]').append('<p>'+book_title+'</p>');
             if (author){
             $('div').filter('[data-bookid="'+this_book_id+'"]').append('<p>'+author+'</p>');
             }
@@ -43,6 +44,7 @@ $(() => {
             if(page_count){
               $('div').filter('[data-bookid="'+this_book_id+'"]').append('<p>Pages: '+page_count+'</p>');
             }
+            $('div').filter('[data-bookid="'+this_book_id+'"]').append('<p>Description: '+book[0].condition+'</p>');
           } else {
             $('div').filter('[data-bookid="'+this_book_id+'"]').empty();
           }
@@ -56,7 +58,6 @@ $(() => {
   }).done((users) => {
     for(user of users) {
     $("h1").text(user.firstname + "'s Profile Page");
-      $("<div>").text(user.email).appendTo($(".show_users"));
     }
   });
   
