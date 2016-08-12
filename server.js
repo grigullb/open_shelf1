@@ -100,12 +100,10 @@ app.post("/users/new", passport.authenticate('local-signup', {
     failureRedirect : '/users/new' // redirect back to the signup page if there is an error
 }));
 
-
-app.get('/profile', isLoggedIn, function(req, res) {
-      res.render('profile.ejs', {
-          user : req.user // get the user out of session and pass to template
-      });
-  });
+//User Profile
+app.get('/users/:user_id', isLoggedIn, function(req, res, next) {
+  res.render("user/profile");
+});
 
 // Logout is handled by passport req.logout
 app.get('/logout', function(req, res) {
@@ -133,10 +131,8 @@ app.listen(PORT, () => {
 
 function isLoggedIn(req, res, next) {
     // if user is authenticated in the session, carry on 
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated())
         return next();
-    } else {
     // if they aren't redirect them to the home page
     res.redirect('/login');
-  }
 }

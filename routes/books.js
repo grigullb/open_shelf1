@@ -1,16 +1,34 @@
+"use strict";
 const express = require('express');
 const router  = express.Router();
+let Genre = require('../models/genre');
+let Author = require('../models/author');
 
 
 module.exports = (knex) => {
 
   router.post("/", (req, res) =>{
-    console.log('submitting book');
-    console.log(req.body.title);
+    // if the author already exists, don't insert to the author table  TODO: what if there's multiple authors?
+    var authorInput = req.body.author.split(' ');
+    Genre.where({ 'genre':  req.body.genre }).fetch().then( function(existingGenre) {
+        if (!existingGenre) {
+          knex('genres').insert({ genre: req.body.genre }).then(function (result){
+            res.json({ success: true, message: 'genre added' });
+          });
+        }
+    });
+    Author.where({ 'first_name':  authorInput[0], 'last_name': authorInput[authorInput.length -1] })
+      .fetch().then( function(existingAuthor) {
+        if (!existingAuthor) {
+          knex.insert({first_name: authorInput[0],last_name: authorInput[authorInput.length -1]}).into('authors').then(function (result){
+            res.json({ success: true, message: 'author added' });
+          });
+        }
+    });
     knex('books').insert({title: req.body.title})
       .then( function (result) {
-          res.json({ success: true, message: 'ok' });     // respond back to request
-       });
+          res.json({ success: true, message: 'title added' });     // respond back to request
+    });
   });
 
   router.get("/search/:filter/:term", (req, res) => {
@@ -44,7 +62,6 @@ module.exports = (knex) => {
         console.log(results);
       });
     } 
-
   });
 
 	router.get("/user_books/:id", (req, res) => {

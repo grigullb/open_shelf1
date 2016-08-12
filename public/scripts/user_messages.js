@@ -1,5 +1,8 @@
 $(() => {
 	var userId = $('#user-id').val();
+  var notification = new Notification('Email received', {
+  body: 'You have a total of 3 unread emails'
+  });
 	getMessages(userId);
   $('#message_box').on('click', function(){
   	addDim();
@@ -9,14 +12,17 @@ $(() => {
     url: "/api/messages/"+userId
   	}).done((messages) => {
   		if(messages.length!==0){
-  			console.log(messages);
+  			var message_count = 1;
 		    for(mes of messages) {
 			    $('.panel-tabs').after('<a class="panel-block is-active" href="#"> \
 			   	<span class="panel-icon"> \
 			    <i class="fa fa-book"></i> \
 			    </span> \
-			    '+mes.text+' \
+			    <span data-count='+message_count+'></span> <p>Subject: '+mes.subject+'</p><p>'+mes.text+'</p> \
 			  	</a>');
+			  	getUserName(mes.sender_id, message_count);
+			  	message_count ++;
+          notification;
 		    }
 		  }else{
 		  	$('.panel-tabs').after('<a class="panel-block is-active" href="#"> \
@@ -92,4 +98,13 @@ function getMessages(userId){
   	}
   });
 }
-
+function getUserName(userId, message_count){
+	$.ajax({
+	    method: "GET",
+	    url: "/api/users/" + userId
+	  }).done((users) => {
+	    for(user of users) {
+	    	$('span').filter('[data-count="'+message_count+'"]').text('From '+user.firstname+': ');
+	  }
+	});
+}
