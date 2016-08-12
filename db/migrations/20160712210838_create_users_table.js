@@ -49,6 +49,5 @@ exports.down = function(knex, Promise) {
     .dropTable('messages')
     .dropTable('authors')
     .dropTable('genres')
-    .dropTable('genre_interests')
-    .dropTable('author_interests');
+    .dropTable('user_interests');
 };
