@@ -87,7 +87,7 @@ app.post("/login",
     failureFlash: true 
   }), isLoggedIn,
   function(req, res) {
-    res.render('user/profile');
+    res.redirect('users/' + req.user.id);
 });
 
 
@@ -108,9 +108,8 @@ app.post("/users/new", passport.authenticate('local-signup', {
 // });
 
 app.get("/users/:user_id", (req, res) => {
-  res.render("user/profile");
+  res.render("user/profile", {userId: req.params.user_id});
 });
-
 
 // app.get('/users/:user_id', isLoggedIn, function(req, res, next) {
 //  res.render("users/profile");
