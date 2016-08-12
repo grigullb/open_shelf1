@@ -1,10 +1,61 @@
-<main>
+<link rel="stylesheet" href="/styles/sidepage.css" type="text/css" />
+
+<section>
+<nav class="nav">
+  <div class="nav-left">
+    <a class="nav-item is-brand" href="#">
+      <h2>Open Shelf</h2>
+    </a>
+  </div>
+
+  <div class="nav-center">
+    <a class="nav-item" href="#">
+      <span class="icon">
+        <i class="fa fa-github"></i>
+      </span>
+    </a>
+    <a class="nav-item" href="#">
+      <span class="icon">
+        <i class="fa fa-twitter"></i>
+      </span>
+    </a>
+  </div>
+
+  <span class="nav-toggle">
+    <span></span>
+    <span></span>
+    <span></span>
+  </span>
+
+  <div class="nav-right nav-menu">
+    
+    <a class="nav-item" href="#">
+      <h1>Profile Page</h1>
+    </a>
+
+    <span class="nav-item">
+      <a class="button is-danger" href="/books/new" >
+        <span>Add Book</span>
+      </a>
+      <a class="button" href="#">
+        <span>Settings</span>
+      </a>
+      <a class="button" href="/logout">
+        <span>Logout</span>
+      </a>
+    </span>
+  </div>
+</nav>
+</section><br>
+
+<main id="login-body">
   <br>
   <section class="columns">
     <div class="column is-one-third">
     </div>
-    <div class="column is-one-third"> 
+    <div class="column is-one-third has-text-centered"> 
       <h1 class="title is-3">Login</h1>
+      <p class="subtitle is-5">Welcome back!</p>
     </div class="column">
     <div class="column is-one-third">
     </div>
@@ -16,7 +67,7 @@
 
     <div class="column is-half">
       <div class="box">
-        <form action="/login" method="post">   <!-- action needs a route -->
+        <form action="/login" method="post">   
           <label for="login-email" class="label">Email:</label>
           <p class="control">
             <input id="login-email" name="email" class="input" type="text" placeholder="name@email.com">
@@ -27,7 +78,7 @@
             <input id="submit-title" name="password" class="input" type="password" placeholder="securepassword">
           </p>
 
-          <input type="submit" value="Login" class="button is-primary">
+          <input type="submit" value="Login" class="button is-primary is-medium">
         </form>
       </div>
     <br>
@@ -48,5 +99,4 @@
     <div class="column">
     </div>
   </section>
-
 </main> 
