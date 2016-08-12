@@ -1,16 +1,13 @@
 $(() => {
   var userId = $('#user-id').val();
-  $.ajax({
-    method: "GET",
-    url: "/api/users/" + userId + "/books"
-  }).done((books) => {
-    for(book of books) {
-      $(".show_books").append('<a data-bookid="'+book.id+'" class="book_link" href="http://www.google.com">'+book.title+'</a>');
-      $(".show_books").append('<div data-bookid="'+book.id+'" class="book_detail"></div>');
-    }
-  });
+  showUserBooks(userId);
 
-  $(".show_books").on("click", ".book_link",function(event){
+  $('#settings').on('click', function(){
+    $('#info-field').empty();
+    showUserInfo(userId);
+  })
+
+  $(document).on("click", ".book_link",function(event){
     event.preventDefault();
     var this_book_id = $(this).data("bookid");
     $.ajax({
@@ -53,10 +50,6 @@ $(() => {
       });
     });
   });
-  
-  
-
-
   $.ajax({
     method: "GET",
     url: "/api/users/" + userId
@@ -68,3 +61,39 @@ $(() => {
   });
   
 });
+
+function showUserBooks(userId){
+  $.ajax({
+    method: "GET",
+    url: "/api/users/" + userId + "/books"
+  }).done((books) => {
+    for(book of books) {
+      $(".show_books").append('<a data-bookid="'+book.id+'" class="book_link" href="#">'+book.title+'</a>');
+      $(".show_books").append('<div data-bookid="'+book.id+'" class="book_detail"></div>');
+    }
+  });
+}
+function showUserInfo(userId){
+$.ajax({
+    method: "GET",
+    url: "/api/users/" + userId
+  }).done((users) => {
+    for(user of users) {
+      $('#info-field').append('<section class="section">\
+      <div class="show_users"></div>\
+      <p>Books you are offering: </p>\
+      <div class="show_books">\
+      </div>')
+      $("<div>").text(user.email).appendTo($(".show_users"));
+      $.ajax({
+        method: "GET",
+        url: "/api/users/" + userId + "/books"
+      }).done((books) => {
+        for(book of books) {
+          $(".show_books").append('<a data-bookid="'+book.id+'" class="book_link" href="#">'+book.title+'</a>');
+          $(".show_books").append('<div data-bookid="'+book.id+'" class="book_detail"></div>');
+        }
+      });
+    }
+  });
+}
