@@ -4,7 +4,7 @@ $(() => {
 		getInterests(userId);
 		$('#info-field').empty();
 		$('#info-field').append('<section id="notif_info" class="section"></section>')
-		$('#notif_info').append('<div id="author_interest"><p>You will be notified when books related to these interests are posted: </p></div>');
+		$('#notif_info').append('<div id="author_interest"><p>You will be notified when books related to these interests are posted: </p></div><br>');
 		$('#notif_info').append('<p id="show_titles">Titles: </p>');
 		$('#notif_info').append('<p id="show_authors">Authors: </p>');
 		$('#notif_info').append('<p id="show_genres">Genres: </p>');
@@ -20,12 +20,18 @@ function getInterests(userId){
 	    for(interest of interests) {
 	    	if(interest.type === 'genre'){
 	    		$('#show_genres').append('<p>&nbsp;&nbsp;'+interest.interest+'</p>');
+	    	} else{
+	    		$('#show_genres').remove();
 	    	}
 	    	if(interest.type === 'title'){
 	    		$('#show_titles').append('<p>&nbsp;&nbsp;'+interest.interest+'</p>');
+	    	} else{
+	    		$('#show_titles').remove();
 	    	}
 	    	if(interest.type === 'author'){
 	    		$('#show_authors').append('<p>&nbsp;&nbsp;'+interest.interest+'</p>');
+	    	} else{
+	    		$('#show_authors').remove();
 	    	}
 	    }
 	});
