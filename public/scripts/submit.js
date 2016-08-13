@@ -1,11 +1,5 @@
 (function(){
   $(function(){
-    var results;
-    var book_title;
-    var author;
-    var page_count;
-    var image;
-    var genre;
   
     var populateForm = function(){
       $(".book-submit-test").on('click', function(){
@@ -14,6 +8,7 @@
         $('#submit-genre').val(genre);
       });
     }
+
     $('.book-submit-form').on('submit', () => {
       var form_data = $('.book-submit-form').serialize();
       $.ajax({
@@ -31,12 +26,12 @@
       method: "get",
       dataType: "json",
       success: function (book_info)  {
-        results = book_info.items[0].volumeInfo;
-        book_title = results.title;
-        author = results.authors; //array
-        page_count = results.pageCount;
-        image = results.imageLinks.thumbnail; //smallThumbnail also available, both are URL links
-        genre = results.categories[0]; //array 
+        var results = book_info.items[0].volumeInfo;
+        var book_title = results.title;
+        var author = results.authors; //array
+        var page_count = results.pageCount;
+        var image = results.imageLinks.thumbnail; //smallThumbnail also available, both are URL links
+        var genre = results.categories[0]; //array 
         $(".book-title").text(book_title);
         $(".author").text(author);
         $(".book-image").attr("src", image);
