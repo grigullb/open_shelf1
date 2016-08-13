@@ -2,9 +2,9 @@ exports.seed = function(knex, Promise) {
     return knex('authors').del()
     .then(function () {
       return Promise.all([
-        knex('authors').insert({first_name: 'Mike', last_name: 'Monteiro'}),
-        knex('authors').insert({first_name: 'Jason', last_name: 'Santa Maria'}),
-        knex('authors').insert({first_name: 'J.K.', last_name: 'Rowling'})
+        knex('authors').insert({first_name: 'mike', last_name: 'monteiro'}),
+        knex('authors').insert({first_name: 'jason', last_name: 'santa maria'}),
+        knex('authors').insert({first_name: 'j.k.', last_name: 'rowling'})
       ]);
     });
 };

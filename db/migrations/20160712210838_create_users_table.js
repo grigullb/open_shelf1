@@ -34,14 +34,10 @@ exports.up = function(knex, Promise) {
     table.increments('id').primary();
     table.string('genre');
     table.timestamps();
-  }).createTable('genre_interests', function(table){
+  }).createTable('user_interests', function(table){
     table.increments('id').primary();
-    table.integer('user_id').references('users');
-    table.integer('genre_id').references('genre');
-    table.timestamps();
-  }).createTable('author_interests', function(table){
-    table.increments('id').primary();
-    table.integer('author_id').references('authors');
+    table.string('type');
+    table.string('interest');
     table.integer('user_id').references('users');
     table.timestamps();
   });
@@ -53,6 +49,5 @@ exports.down = function(knex, Promise) {
     .dropTable('messages')
     .dropTable('authors')
     .dropTable('genres')
-    .dropTable('genre_interests')
-    .dropTable('author_interests');
+    .dropTable('user_interests');
 };
