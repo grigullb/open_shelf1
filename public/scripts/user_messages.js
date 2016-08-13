@@ -32,6 +32,7 @@ $(() => {
   });
 });
 
+// currently, just pluralizes the message header if more than one message
 function updateMessageDisplay(userId){
   $.ajax({
     method: "GET",
@@ -47,6 +48,7 @@ function updateMessageDisplay(userId){
   });
 }
 
+// displays the name of the message sender 
 function getUserName(userId, message_count){
   $.ajax({
     method: "GET",
@@ -58,6 +60,7 @@ function getUserName(userId, message_count){
   });
 }
 
+// dim the background when the popup window appears 
 function addDim(){
   $('#search_book_info').remove();
   $('<div id="msg_overlay">').css({
@@ -76,6 +79,7 @@ function addDim(){
     }).appendTo(document.body);
 }
 
+// creates a popup window for the messages (can refactor to a bulma 'model')
 function addPopup(){
   $('<nav class="panel" id="display_messages"> \
   <p class="panel-heading"> \

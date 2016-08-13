@@ -6,10 +6,6 @@ body h1 {
   color: #244751;
 }
 
-#brand-type{
-  
-}
-
 #search-field {
   margin-top: 30px;
 
@@ -17,6 +13,12 @@ body h1 {
 
 #info-field {
   margin-top: 30px;
+}
+
+.camera-box {
+  border: 1px solid;
+  height: 240px;
+  width: 320px; 
 }
 
 .centering{

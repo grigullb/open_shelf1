@@ -14,7 +14,6 @@
         $('#submit-genre').val(genre);
       });
     }
-    
     $('.book-submit-form').on('submit', () => {
       var form_data = $('.book-submit-form').serialize();
       $.ajax({
