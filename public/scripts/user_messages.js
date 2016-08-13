@@ -1,15 +1,15 @@
 $(() => {
 	var userId = $('#user-id').val();
-	getMessages(userId);
+	updateMessageDisplay(userId);
   $('#message_box').on('click', function(){
   	addDim();
   	addPopup();
   	$.ajax({
-    method: "GET",
-    url: "/api/messages/"+userId
+      method: "GET",
+      url: "/api/messages/"+userId
   	}).done((messages) => {
-  		if(messages.length!==0){
-  			var message_count = 1;
+  		if(messages.length > 0){
+  			var message_count = messages.length;
 		    for(mes of messages) {
 			    $('.panel-tabs').after('<a class="panel-block is-active" href="#"> \
 			   	<span class="panel-icon"> \
@@ -32,9 +32,38 @@ $(() => {
   });
 });
 
+// currently, just pluralizes the message header if more than one message
+function updateMessageDisplay(userId){
+  $.ajax({
+    method: "GET",
+    url: "/api/messages/"+userId
+  }).done((messages) => {
+    var messageSingular = messages.length;
+    $('#message_count').text(messageSingular);
+    if(messageSingular===1){
+      $('#message_header').text('Message');
+    } else{
+      $('#message_header').text('Messages');
+    }
+  });
+}
+
+// displays the name of the message sender 
+function getUserName(userId, message_count){
+  $.ajax({
+    method: "GET",
+    url: "/api/users/" + userId
+  }).done((users) => {
+    for(user of users) {
+      $('span').filter('[data-count="'+message_count+'"]').text('From '+user.firstname+': ');
+    }
+  });
+}
+
+// dim the background when the popup window appears 
 function addDim(){
   $('#search_book_info').remove();
-      $('<div id="msg_overlay">').css({
+  $('<div id="msg_overlay">').css({
       "width" : "100%"
     , "height" : "100%"
     , "background" : "#000"
@@ -50,6 +79,7 @@ function addDim(){
     }).appendTo(document.body);
 }
 
+// creates a popup window for the messages (can refactor to a bulma 'model')
 function addPopup(){
   $('<nav class="panel" id="display_messages"> \
   <p class="panel-heading"> \
@@ -76,31 +106,3 @@ function addPopup(){
     }).appendTo(document.body);
 }
 
-function getMessages(userId){
-	$.ajax({
-    method: "GET",
-    url: "/api/messages/"+userId
-  }).done((messages) => {
-  	var messageTotal = 0;
-    for(mes of messages) {
-      console.log(mes);
-      messageTotal ++;
-    }
-    $('#message_count').text(messageTotal);
-    if(messageTotal===1){
-    	$('#message_header').text('Message');
-  	}else{
-  		$('#message_header').text('Messages');
-  	}
-  });
-}
-function getUserName(userId, message_count){
-	$.ajax({
-	    method: "GET",
-	    url: "/api/users/" + userId
-	  }).done((users) => {
-	    for(user of users) {
-	    	$('span').filter('[data-count="'+message_count+'"]').text('From '+user.firstname+': ');
-	  }
-	});
-}

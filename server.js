@@ -27,6 +27,7 @@ const usersRoutes  = require("./routes/users");
 const booksRoutes  = require("./routes/books");
 const messagesRoutes  = require("./routes/messages");
 const bcrypt  = require('bcrypt-nodejs');
+let Book = require('./models/book');
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -126,7 +127,13 @@ app.get("/books/new", (req, res) => {
   res.render("book/new");
 });
 
-app.post("/books/new", (req, res) => {
+app.post("/books/create", (req, res) => {
+  // var newBook = Book.forge({
+  //   //refers to the name attr on form inputs
+  //   title: req.body.title,     
+  //   isbn: req.body.isbn
+  // });
+  // .save();
   res.redirect("/books/new");
 });
 

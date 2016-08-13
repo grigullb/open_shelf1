@@ -15,6 +15,12 @@ body h1 {
   margin-top: 30px;
 }
 
+.camera-box {
+  border: 1px solid;
+  height: 240px;
+  width: 320px; 
+}
+
 .centering{
   width: 50%; 
   margin: -10px 62px auto auto;
