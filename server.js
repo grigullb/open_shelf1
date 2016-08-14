@@ -28,6 +28,8 @@ const booksRoutes  = require("./routes/books");
 const messagesRoutes  = require("./routes/messages");
 const bcrypt  = require('bcrypt-nodejs');
 let Book = require('./models/book');
+let Author = require('./models/author');
+let Genre = require('./models/genre');
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -128,12 +130,7 @@ app.get("/books/new", (req, res) => {
 });
 
 app.post("/books/create", (req, res) => {
-  // var newBook = Book.forge({
-  //   //refers to the name attr on form inputs
-  //   title: req.body.title,     
-  //   isbn: req.body.isbn
-  // });
-  // .save();
+  createNewBookData();
   res.redirect("/books/new");
 });
 
@@ -150,4 +147,31 @@ function isLoggedIn(req, res, next) {
        res.redirect('/');
     }
     // if they aren't redirect them to the home page
+}
+
+function createNewBookData() {
+  var authorID; 
+  var genreID;
+  Genre.where({ 'genre': req.body.genre }).get('id').then( function(existing) {
+    if (existing) {
+      genreID = existing;
+    } else {
+      Genre.forge({
+        genre: req.body.genre
+      }).save();
+      //. TODO 
+      // do a promise, that occurs after save, that sets the genreID to the newly create genres id.
+    }
+  });
+  //TODO do the same as above for Author, however, consider changing the Author table to only have 
+  // author name and not firstname, lastname. 
+
+  var newBook = Book.forge({
+    // TODO 
+    // This should be a promise that occurs after the Genre and Author have been figured out. 
+    // Also need to get the current users user id to associate with this book. 
+    title: req.body.title,     
+    isbn: req.body.isbn,
+    genre_id: genreID
+  });
 }
