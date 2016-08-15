@@ -1,7 +1,10 @@
 <nav class="nav">
   <div class="nav-left">
-    <a class="nav-item is-brand" href="#">
-      <h2>Open Shelf</h2>
+    <a class="nav-item" href="/users/{{userId}}">
+      <img src="/images/shelf.png" class="hvr-grow">
+    </a>
+    <a class="nav-item is-brand" href="/users/{{userId}}">
+      <h2 class="brand-text">Open Shelf</h2>
     </a>
   </div>
 
@@ -40,8 +43,11 @@
       <a class="button is-danger" href="/books/new">
         <span>Add Book</span>
       </a>
-      <a class="button" href="#" >
-        <span>Settings</span>
+      <a id="settings" class="button is-primary" href="#" >
+        <span>Your Books</span>
+      </a>
+      <a id="preferences" class="button is-info" href="#" >
+        <span>Preferences</span>
       </a>
       <a class="button" href="/logout">
         <span>Logout</span>
@@ -51,34 +57,35 @@
 </nav>
 
 
+<section class="container">
+  <div class="columns">
+    <div class="column is-one-third" id="search-field">
+      <section class="section">
+        <p class="control has-addons">
+          <span class="select">
+            <select class="filter">
+              <option>title</option>
+              <option>author</option>
+              <option>genre</option>
+            </select>
+          </span>
+          <input class="input is-expanded" type="text" placeholder="Search Books">
+          <a class="button is-success">Search</a>
+        </p>
+        <div id="search-field-results">
+        </div>
+      </section>
+    </div>
 
-<div class="columns">
-<div class="column is-4 card" id="search-field">
-<section class="section">
-  <p class="control has-addons">
-    <span class="select">
-      <select class="filter">
-        <option>title</option>
-        <option>author</option>
-        <option>genre</option>
-      </select>
-    </span>
-    <input class="input is-expanded" type="text" placeholder="Search Books">
-    <a class="button is-success">
-      Search
-    </a>
-</p>
-<div id="search-field-results">
-</div>
+    <div class="column is-two-thirds" id="info-field">
+      <section class="section">
+      <div class="show_users title is-5"></div>
+      <p class="subtitle is-5">Books you are offering: </p>
+      <div class="show_books"></div>
+      </section>
+    </div>
+  </div>
 </section>
-</div>
-<div class="column is-7 card" id="info-field">
-  <section class="section">
-  <div class="show_users"></div>
-  <p>Books you're selling: </p>
-  <div class="show_books"></div>
-</div>
-</div>
 
 <input type="hidden" id="user-id" value={{userId}}>
 
