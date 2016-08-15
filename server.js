@@ -85,6 +85,15 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", 
+<<<<<<< HEAD
+ passport.authenticate('local-login', { 
+   failureRedirect : '/login',
+   failureFlash: true 
+ }),
+ function(req, res) {
+   res.redirect('/users/' + req.user.id);
+});
+=======
   passport.authenticate('local-login', { 
     failureRedirect : '/login',
     failureFlash: true 
@@ -93,6 +102,7 @@ app.post("/login",
     res.redirect('users/' + req.user.id);
 });
 
+>>>>>>> aa9842dc050d5d67f6824e9e8bf49c7eb0024e0b
 
 //New User Sign-Up
 app.get("/users/new", (req, res) => {
@@ -105,18 +115,9 @@ app.post("/users/new", passport.authenticate('local-signup', {
 }));
 
 //User Profile
-// app.get("/users/:user_id", isLoggedIn, (req, res) => {
-//   ifreq.params.user_id == session[:user_id]
-//   res.render("user/profile", {userId: req.params.user_id});
-// });
-
-app.get("/users/:user_id", (req, res) => {
-  res.render("user/profile", {userId: req.params.user_id});
+app.get('/users/:user_id', isLoggedIn, function(req, res, next) {
+  res.render("user/profile");
 });
-
-// app.get('/users/:user_id', isLoggedIn, function(req, res, next) {
-//  res.render("users/profile");
-// });
 
 // Logout is handled by passport req.logout
 app.get('/logout', function(req, res) {
@@ -144,7 +145,7 @@ function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()){
        return next();
     } else {
-       res.redirect('/');
+       res.redirect('/login');
     }
     // if they aren't redirect them to the home page
 }
