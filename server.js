@@ -130,7 +130,7 @@ app.get("/books/new", (req, res) => {
 });
 
 app.post("/books/create", (req, res) => {
-  createNewBookData();
+  createNewBookData(req, res);
   res.redirect("/books/new");
 });
 
@@ -149,18 +149,20 @@ function isLoggedIn(req, res, next) {
     // if they aren't redirect them to the home page
 }
 
-function createNewBookData() {
+function createNewBookData(req, res) {
   var authorID; 
   var genreID;
-  Genre.where({ 'genre': req.body.genre }).get('id').then( function(existing) {
-    if (existing) {
-      genreID = existing;
+  Genre.where({ 'genre': req.body.genre }).fetch().get('id').then( function(existingID) {
+    if (existingID) {
+      genreID = existingID;
     } else {
-      Genre.forge({
+      newGenre = Genre.forge({
         genre: req.body.genre
-      }).save();
-      //. TODO 
-      // do a promise, that occurs after save, that sets the genreID to the newly create genres id.
+      })
+      .save()
+      .then( function(model){
+        genreID = model.get('id');
+      });
     }
   });
   //TODO do the same as above for Author, however, consider changing the Author table to only have 
@@ -174,4 +176,6 @@ function createNewBookData() {
     isbn: req.body.isbn,
     genre_id: genreID
   });
+  console.log("##########");
+  console.log(newBook);
 }
