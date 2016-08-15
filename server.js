@@ -85,6 +85,7 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", 
+<<<<<<< HEAD
  passport.authenticate('local-login', { 
    failureRedirect : '/login',
    failureFlash: true 
@@ -92,6 +93,16 @@ app.post("/login",
  function(req, res) {
    res.redirect('/users/' + req.user.id);
 });
+=======
+  passport.authenticate('local-login', { 
+    failureRedirect : '/login',
+    failureFlash: true 
+  }), isLoggedIn,
+  function(req, res) {
+    res.redirect('users/' + req.user.id);
+});
+
+>>>>>>> aa9842dc050d5d67f6824e9e8bf49c7eb0024e0b
 
 //New User Sign-Up
 app.get("/users/new", (req, res) => {
