@@ -18,7 +18,7 @@ module.exports = (knex) => {
       .from("messages")
       .where('reciever_id', req.params.id)
       .then((results) => {
-        res.json(results);
+        res.json(JSON.stringify(results));
     });
   });
 

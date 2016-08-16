@@ -39,10 +39,6 @@ app.use(morgan('dev'));
 // Log knex SQL queries to STDOUT as well
 app.use(knexLogger(knex));
 
-// Sessions requirements for passport
-app.use(passport.initialize());
-app.use(passport.session());
-
 // Cookie requirements for passport
 app.use(bodyParser.json()); 
 app.use(cookieParser());
@@ -51,6 +47,8 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 })); 
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Views and page display
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
@@ -85,24 +83,12 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", 
-<<<<<<< HEAD
- passport.authenticate('local-login', { 
-   failureRedirect : '/login',
-   failureFlash: true 
- }),
- function(req, res) {
-   res.redirect('/users/' + req.user.id);
-});
-=======
   passport.authenticate('local-login', { 
     failureRedirect : '/login',
     failureFlash: true 
-  }), isLoggedIn,
-  function(req, res) {
+  }), function(req, res) {
     res.redirect('users/' + req.user.id);
 });
-
->>>>>>> aa9842dc050d5d67f6824e9e8bf49c7eb0024e0b
 
 //New User Sign-Up
 app.get("/users/new", (req, res) => {
@@ -115,8 +101,9 @@ app.post("/users/new", passport.authenticate('local-signup', {
 }));
 
 //User Profile
-app.get('/users/:user_id', isLoggedIn, function(req, res, next) {
-  res.render("user/profile");
+
+app.get('/users/:user_id', isLoggedIn, function(req, res) {
+  res.render("user/profile", { userId: req.user.id });
 });
 
 // Logout is handled by passport req.logout
@@ -152,10 +139,11 @@ function isLoggedIn(req, res, next) {
 
 function createNewBookData(req, res) {
   var authorID; 
-  var genreID;
+  var genreID = 2;
   Genre.where({ 'genre': req.body.genre }).fetch().get('id').then( function(existingID) {
-    if (existingID) {
-      genreID = existingID;
+    if (Number.isInteger(existingID)) {
+      var genreID = existingID;
+      console.log(genreID);
     } else {
       newGenre = Genre.forge({
         genre: req.body.genre
@@ -166,17 +154,7 @@ function createNewBookData(req, res) {
       });
     }
   });
-  //TODO do the same as above for Author, however, consider changing the Author table to only have 
-  // author name and not firstname, lastname. 
 
-  var newBook = Book.forge({
-    // TODO 
-    // This should be a promise that occurs after the Genre and Author have been figured out. 
-    // Also need to get the current users user id to associate with this book. 
-    title: req.body.title,     
-    isbn: req.body.isbn,
-    genre_id: genreID
-  });
-  console.log("##########");
-  console.log(newBook);
+
 }
+

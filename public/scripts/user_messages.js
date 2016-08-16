@@ -9,7 +9,7 @@ $(() => {
   	addPopup();
   	$.ajax({
       method: "GET",
-      url: "/api/messages/"+userId
+      url: "/api/messages/"+ userId
   	}).done((messages) => {
   		if(messages.length > 0){
   			var message_count = messages.length;

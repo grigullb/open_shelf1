@@ -11,13 +11,11 @@ module.exports = function(passport) {
   }
   // passport session setup
   passport.serializeUser(function(user, done) {
-      done(null, user.id);
+      done(null, user);
   });
 
-  passport.deserializeUser(function(id, done) {
-      User.where({ 'id':  id }).fetch().then( function(err, user) {
-          done(err, user);
-      });
+  passport.deserializeUser(function(user, done) {
+      done(null, user);
   });
 
   // SIGNUP LOGIC########################
@@ -71,9 +69,8 @@ module.exports = function(passport) {
       // find a user whose email is the same as the forms email
       User.where({ email:  email }).fetch().then( function(user) {
           if (!user || !user.validPassword(password)) {
-              return done(null, false, req.flash('loginMessage', 'No user found.'));
+            return done(null, false, req.flash('loginMessage', 'No user found.'));
           }
-          console.log("Found the user!");
           return done(null, user); // all is well, return successful user
       });
   }));
