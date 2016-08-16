@@ -3,7 +3,7 @@ let Bookshelf = require('../database');
 
 // require('./books');
 var Book = Bookshelf.Model.extend({
-  tableName: 'users',
+  tableName: 'books',
   hasTimeStamps: true, 
 
 }); 

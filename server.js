@@ -21,6 +21,7 @@ const knex         = require("knex")(knexConfig[ENV]);
 const morgan       = require('morgan');
 const knexLogger   = require('knex-logger');
 const bookshelf    = require('bookshelf')(knex);
+const Promise   = require('bluebird');
 
 // Seperated Routes for each Resource
 const usersRoutes  = require("./routes/users");
@@ -117,15 +118,17 @@ app.get("/books/new", (req, res) => {
   res.render("book/new");
 });
 
-app.post("/books/create", (req, res) => {
-  createNewBookData(req, res);
-  res.redirect("/books/new");
+app.post("/books/create", isLoggedIn, function(req, res){
+  createNewBookData(req).then(function(newBook){
+    res.redirect("/users/:user_id");
+  });
 });
 
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
+
 
 function isLoggedIn(req, res, next) {
     // if user is authenticated in the session, carry on 
@@ -134,47 +137,71 @@ function isLoggedIn(req, res, next) {
     } else {
        res.redirect('/login');
     }
-    // if they aren't redirect them to the home page
 }
 
-function createNewBookData(req, res) {
-  var authorID; 
-  var genreID;
 
-  Genre.where({ 'genre': req.body.genre }).fetch().then( function(model) {
-    if (model) {
-      var genreID = model.get('id');
-      forgeBook(req,res, genreID);
-    } else {
-      newGenre = Genre.forge({
-        genre: req.body.genre
-      })
-      .save()
-      .then( function(model){
-        console.log(model);
-        genreID = model.get('id');
-        forgeBook(req,res, genreID);
+function createNewBookData(req){
+  //TODO 
+  // getGenreData .then() getAuthorData .then() forgeBook
+  return new Promise(function (resolve, reject){
+    Promise.all([getGenreData(req), getAuthorData(req)]).then(function(values){
+      var newBook = Book.forge({
+        title: req.body.title,
+        isbn: req.body.isbn,
+        user_id: req.user.id,     // to be refactored to take the user id from the req.user field. 
+        author_id: values[1],
+        genre_id: values[0]
+      }).save().then( function(model){
+        resolve(model);
       });
-    }
+    });
   });
 }
-// function returnAuthorID() {
-//   var author;
-//   Author.where({ 'author': req.body.author }).fetch().then( function(model){
-//     author = model.get('id');
-//   }).then( function(result){
-//     console.log(author);
-//   });
-// }
-function forgeBook(req, res, genreID){
-  console.log("Forging New Book ###########");
-  var newBook = Book.forge({
-      title: req.body.title,
-      isbn: req.body.isbn,
-      user: 2,
-      author_id: 100,
-      genre_id: genreID
-  }); //.save 
-  console.log(newBook);
+
+function getGenreData(req) { 
+  //TODO make a promise, that returns the completed steps.
+  return new Promise(function (resolve, reject) {
+     Genre.where({ 'genre': req.body.genre }).fetch()
+      .then( function(model) {
+        if (model) {
+          var genreID = model.get('id');
+          resolve(genreID);   
+        }
+        else {
+        Genre.forge({
+          genre: req.body.genre
+        })
+        .save()
+        .then( function(model){
+          var genreID = model.get('id');
+          resolve(genreID);
+        });
+      }
+    });
+  });
 }
+
+function getAuthorData(req) { 
+  //TODO make a promise, that returns the completed steps.
+  return new Promise(function (resolve, reject) {
+     Author.where({ 'author': req.body.author }).fetch()
+      .then( function(model) {
+        if (model) {
+          var authorID = model.get('id');
+          resolve(authorID);   
+        }
+        else {
+        Author.forge({
+          author: req.body.author
+        })
+        .save()
+        .then( function(model){
+          var authorID = model.get('id');
+          resolve(authorID);
+        });
+      }
+    });
+  });
+}
+
 
