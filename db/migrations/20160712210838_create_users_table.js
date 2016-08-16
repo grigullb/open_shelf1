@@ -27,8 +27,7 @@ exports.up = function(knex, Promise) {
     table.timestamps();
   }).createTable('authors', function(table){
     table.increments('id').primary();
-    table.string('first_name');
-    table.string('last_name');
+    table.string('author');
     table.timestamps();
   }).createTable('genres', function(table){
     table.increments('id').primary();

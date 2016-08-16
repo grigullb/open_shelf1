@@ -139,22 +139,42 @@ function isLoggedIn(req, res, next) {
 
 function createNewBookData(req, res) {
   var authorID; 
-  var genreID = 2;
-  Genre.where({ 'genre': req.body.genre }).fetch().get('id').then( function(existingID) {
-    if (Number.isInteger(existingID)) {
-      var genreID = existingID;
-      console.log(genreID);
+  var genreID;
+
+  Genre.where({ 'genre': req.body.genre }).fetch().then( function(model) {
+    if (model) {
+      var genreID = model.get('id');
+      forgeBook(req,res, genreID);
     } else {
       newGenre = Genre.forge({
         genre: req.body.genre
       })
       .save()
       .then( function(model){
+        console.log(model);
         genreID = model.get('id');
+        forgeBook(req,res, genreID);
       });
     }
   });
-
-
+}
+// function returnAuthorID() {
+//   var author;
+//   Author.where({ 'author': req.body.author }).fetch().then( function(model){
+//     author = model.get('id');
+//   }).then( function(result){
+//     console.log(author);
+//   });
+// }
+function forgeBook(req, res, genreID){
+  console.log("Forging New Book ###########");
+  var newBook = Book.forge({
+      title: req.body.title,
+      isbn: req.body.isbn,
+      user: 2,
+      author_id: 100,
+      genre_id: genreID
+  }); //.save 
+  console.log(newBook);
 }
 
