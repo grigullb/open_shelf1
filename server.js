@@ -32,6 +32,7 @@ const bcrypt  = require('bcrypt-nodejs');
 let Book = require('./models/book');
 let Author = require('./models/author');
 let Genre = require('./models/genre');
+let Interest = require('./models/interests');
 
 // let onlineUsers = {};
 
@@ -122,7 +123,9 @@ app.get("/books/new", (req, res) => {
 });
 
 app.post("/books/create", isLoggedIn, function(req, res){
-  createNewBookData(req).then(function(newBook){
+  createNewBookData(req).then(seekInterests(req)).then(function(array){
+    console.log(array);
+  }).then(function(){
     res.redirect("/users/:user_id");
   });
 });
@@ -138,19 +141,31 @@ app.get("/user_verification", function(req, res) {
   res.json(req.user ? req.user.id : false)
 })
 
+function seekInterests(req){
+  return new Promise(function(resolve, reject){
+    var author = req.body.author;
+    var genre = req.body.genre;
+    var title = req.body.title; 
+    var results = [];
+    knex.select('user_id').from('user_interests')
+    .whereIn('interest', [author, genre, title]).then( function(model){
+      results.push(model);
+      resolve(results);
+    });
+  })
+}
+
+
 function isLoggedIn(req, res, next) {
-    // if user is authenticated in the session, carry on 
     if (req.isAuthenticated()){
-       return next();
+      return next();
     } else {
-       res.redirect('/login');
+      res.redirect('/login');
     }
 }
 
 
 function createNewBookData(req){
-  //TODO 
-  // getGenreData .then() getAuthorData .then() forgeBook
   return new Promise(function (resolve, reject){
     Promise.all([getGenreData(req), getAuthorData(req)]).then(function(values){
       var newBook = Book.forge({
@@ -167,7 +182,6 @@ function createNewBookData(req){
 }
 
 function getGenreData(req) { 
-  //TODO make a promise, that returns the completed steps.
   return new Promise(function (resolve, reject) {
      Genre.where({ 'genre': req.body.genre }).fetch()
       .then( function(model) {
@@ -190,7 +204,6 @@ function getGenreData(req) {
 }
 
 function getAuthorData(req) { 
-  //TODO make a promise, that returns the completed steps.
   return new Promise(function (resolve, reject) {
      Author.where({ 'author': req.body.author }).fetch()
       .then( function(model) {
