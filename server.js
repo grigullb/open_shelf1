@@ -14,7 +14,8 @@ const sass         = require("node-sass-middleware");
 const flash        = require('connect-flash');
 require('./config/passport')(passport);
 const app          = express();
-  
+const http         = require('http').Server(app);
+const io           = require('socket.io')(http);
 //some of this is replicated in ./database.js, can be replaced later
 const knexConfig   = require("./knexfile");
 const knex         = require("knex")(knexConfig[ENV]);
@@ -31,6 +32,8 @@ const bcrypt  = require('bcrypt-nodejs');
 let Book = require('./models/book');
 let Author = require('./models/author');
 let Genre = require('./models/genre');
+
+// let onlineUsers = {};
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -71,7 +74,7 @@ app.use("/styles", sass({
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
 app.use("/api/books", booksRoutes(knex));
-app.use("/api/messages", messagesRoutes(knex));
+app.use("/api/messages", messagesRoutes(knex, notifyUsers));
 
 // Home page
 app.get("/", (req, res)=>{
@@ -124,11 +127,16 @@ app.post("/books/create", isLoggedIn, function(req, res){
   });
 });
 
+//New message
+// app.get('/messages', function(req, res){
+//   res.render("messages/new", {
+ //     scripts: ['socket.io-client/socket.io.js']
+//   });
+// });
 
-app.listen(PORT, () => {
-  console.log("Example app listening on port " + PORT);
-});
-
+app.get("/user_verification", function(req, res) {
+  res.json(req.user ? req.user.id : false)
+})
 
 function isLoggedIn(req, res, next) {
     // if user is authenticated in the session, carry on 
@@ -204,4 +212,36 @@ function getAuthorData(req) {
   });
 }
 
+const clients = {};
 
+io.on('connection', function(socket){
+  var user_id
+  socket.on('user', function(id) {
+    if (!clients[id]) {
+      clients[id] = [];
+    }
+    user_id = id;
+    clients[id].push(socket);
+  })
+  socket.on('disconnect', function(){
+    var c = clients[user_id];
+    if (c && c.indexOf(socket) !== -1) {
+      c.splice(c.indexOf(socket), 1)
+    }
+  })
+});
+
+function notifyUsers(user_ids, message) {
+  user_ids.forEach(function(user_id) {
+    var sockets = clients[user_id];
+    if (sockets && sockets.length) {
+      sockets.forEach(function(socket) {
+        socket.emit('notification', message);
+      })
+    }
+  })
+}
+
+http.listen(PORT, () => {
+  console.log("Example app listening on port " + PORT);
+});

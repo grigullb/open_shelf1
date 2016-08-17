@@ -1,5 +1,3 @@
-
-    
 $(() => {
   var userId = $('#user-id').val();
   showUserBooks(userId);

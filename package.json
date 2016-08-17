@@ -30,8 +30,10 @@
     "node-sass-middleware": "^0.9.8",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
-    "pg": "^6.0.2",
-    "push.js": "0.0.10"
+    "pg": "^6.1.0",
+    "push.js": "0.0.10",
+    "redis": "^2.6.2",
+    "socket.io": "^1.4.8"
   },
   "devDependencies": {
     "nodemon": "^1.9.2",

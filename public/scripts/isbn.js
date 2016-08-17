@@ -19,12 +19,12 @@ $(() => {
     $('#play').on('click', () => {
         decoder.pause();
         setTimeout(function() {
-            decoder.play();           
-
+          decoder.play();
         }, 150)
     }); 
     $('#stop').on('click', () => {
      decoder.stop();
+
     });
 });
 
