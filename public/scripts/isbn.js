@@ -20,7 +20,6 @@ $(() => {
         decoder.pause();
         setTimeout(function() {
             decoder.play();           
-
         }, 150)
     }); 
     $('#stop').on('click', () => {

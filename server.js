@@ -14,7 +14,8 @@ const sass         = require("node-sass-middleware");
 const flash        = require('connect-flash');
 require('./config/passport')(passport);
 const app          = express();
-  
+const http         = require('http').Server(app);
+// const io           = require('socket.io')(http);
 //some of this is replicated in ./database.js, can be replaced later
 const knexConfig   = require("./knexfile");
 const knex         = require("knex")(knexConfig[ENV]);
@@ -30,6 +31,8 @@ const bcrypt  = require('bcrypt-nodejs');
 let Book = require('./models/book');
 let Author = require('./models/author');
 let Genre = require('./models/genre');
+
+// let onlineUsers = {};
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -122,10 +125,12 @@ app.post("/books/create", (req, res) => {
   res.redirect("/books/new");
 });
 
-
-app.listen(PORT, () => {
-  console.log("Example app listening on port " + PORT);
-});
+//New message
+// app.get('/messages', function(req, res){
+//   res.render("messages/new", {
+//     scripts: ['socket.io-client/socket.io.js']
+//   });
+// });
 
 function isLoggedIn(req, res, next) {
     // if user is authenticated in the session, carry on 
@@ -178,3 +183,12 @@ function forgeBook(req, res, genreID){
   console.log(newBook);
 }
 
+// io.on('connection', function(socket){
+//   socket.on('chat message', function(msg){
+//     console.log('message: ' + msg);
+//   });
+// });
+
+http.listen(PORT, () => {
+  console.log("Example app listening on port " + PORT);
+});
