@@ -13,13 +13,13 @@
     <div>
       <button id="play">Play</button>
       <button id="stop">Stop</button>
-      <select id="camera-select"></select>
+      <button id="isbn-select">ISBN</select>
     </div>
   </section>
   <section class="column is-two-thirds">
     <form action="/books/create" method="post" class="book-submit-form">   <!-- action needs a route -->
       <label for="submit-isbn" class="label caption">ISBN:</label>
-      <input id="submit-isbn" class="input" type="text" name="isbn"><br>
+      <input id="submit-isbn" class="input submit-isbn" type="text" name="isbn"><br>
 
       <label for="submit-title" class="label">Book Title:</label>
       <input id="submit-title" class="input" type="text" name="title"><br>

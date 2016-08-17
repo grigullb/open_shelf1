@@ -20,29 +20,29 @@ $(() => {
         decoder.pause();
         setTimeout(function() {
             decoder.play();           
-
         }, 150)
     }); 
     $('#stop').on('click', () => {
-     decoder.stop();
+      decoder.stop();
     });
+    
 });
 
 function fillForm(isbn){
-$.ajax({
-      url: "https://www.googleapis.com/books/v1/volumes?q=isbn:"+isbn, 
-      method: "get",
-      dataType: "json",
-      success: function (book_info)  {
-        results = book_info.items[0].volumeInfo;
-        book_title = results.title;
-        author = results.authors; //array
-        page_count = results.pageCount;
-        image = results.imageLinks.thumbnail; //smallThumbnail also available, both are URL links
-        genre = results.categories[0]; //array 
-        $("#submit-title").val(book_title);
-        $("#author").val(author);
-        $("#submit-genre").val(genre);
-      }
-    });
+  $.ajax({
+    url: "https://www.googleapis.com/books/v1/volumes?q=isbn:"+isbn, 
+    method: "get",
+    dataType: "json",
+    success: function (book_info)  {
+      results = book_info.items[0].volumeInfo;
+      book_title = results.title;
+      author = results.authors; //array
+      page_count = results.pageCount;
+      image = results.imageLinks.thumbnail; //smallThumbnail also available, both are URL links
+      genre = results.categories[0]; //array 
+      $("#submit-title").val(book_title);
+      $("#author").val(author);
+      $("#submit-genre").val(genre);
+    }
+  });
 }
