@@ -21,6 +21,9 @@ const io           = require('socket.io')(http);
 // socket clients 
 const clients = {};
 
+=======
+const http         = require('http').Server(app);
+// const io           = require('socket.io')(http);
 //some of this is replicated in ./database.js, can be replaced later
 const knexConfig   = require("./knexfile");
 const knex         = require("knex")(knexConfig[ENV]);
@@ -42,6 +45,8 @@ let Book = require('./models/book');
 let Author = require('./models/author');
 let Genre = require('./models/genre');
 let Interest = require('./models/interests');
+
+// let onlineUsers = {};
 
 // let onlineUsers = {};
 
@@ -164,7 +169,6 @@ function seekInterests(req){
     });
   })
 }
-
 
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()){
