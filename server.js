@@ -13,9 +13,14 @@ const bodyParser   = require("body-parser");
 const sass         = require("node-sass-middleware");
 const flash        = require('connect-flash');
 require('./config/passport')(passport);
+// main application
 const app          = express();
+// connection with sockets 
 const http         = require('http').Server(app);
 const io           = require('socket.io')(http);
+// socket clients 
+const clients = {};
+
 //some of this is replicated in ./database.js, can be replaced later
 const knexConfig   = require("./knexfile");
 const knex         = require("knex")(knexConfig[ENV]);
@@ -29,6 +34,10 @@ const usersRoutes  = require("./routes/users");
 const booksRoutes  = require("./routes/books");
 const messagesRoutes  = require("./routes/messages");
 const bcrypt  = require('bcrypt-nodejs');
+
+
+
+// paths to database models 
 let Book = require('./models/book');
 let Author = require('./models/author');
 let Genre = require('./models/genre');
@@ -123,10 +132,8 @@ app.get("/books/new", (req, res) => {
 });
 
 app.post("/books/create", isLoggedIn, function(req, res){
-  createNewBookData(req).then(seekInterests(req)).then(function(array){
-    console.log(array);
-  }).then(function(){
-    res.redirect("/users/:user_id");
+  Promise.all([createNewBookData(req), seekInterests(req)]).then(function(){
+    res.redirect("/users/" + req.user.id );
   });
 });
 
@@ -148,8 +155,11 @@ function seekInterests(req){
     var title = req.body.title; 
     var results = [];
     knex.select('user_id').from('user_interests')
-    .whereIn('interest', [author, genre, title]).then( function(model){
-      results.push(model);
+    .whereIn('interest', [author, genre, title]).then( function(data){
+      for(var i=0;i<data.length;i++){
+        results.push(data[i].user_id);
+      }
+      console.log(results);
       resolve(results);
     });
   })
@@ -225,8 +235,6 @@ function getAuthorData(req) {
   });
 }
 
-const clients = {};
-
 io.on('connection', function(socket){
   var user_id
   socket.on('user', function(id) {
@@ -256,5 +264,5 @@ function notifyUsers(user_ids, message) {
 }
 
 http.listen(PORT, () => {
-  console.log("Example app listening on port " + PORT);
+  console.log("OpenShelf listening on port " + PORT);
 });
