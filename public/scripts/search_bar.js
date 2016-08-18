@@ -64,9 +64,8 @@ $(() => {
                       $('#info-field').append('<p>Pages: '+page_count+'</p>');
                     }
                     $('#info-field').append('<p>Description: '+book_condition+'</p>');
-                    $('#info-field').append('<p><em>'+book_owner+'</em> is the owner of this Book. Message <em>'+book_owner+'</em> to show your interested in the book</p>');
-                    $('#info-field').append('<textarea id="message_field"></textarea>');
-                    $('#info-field').append('<br><button class="button is-primary" id="message_submit_button">Submit</button>');
+                    $('#info-field').append('<p><strong>'+book_owner+'</strong> is the owner of this Book. Message them to show you are interested in the book!</p>');
+                    $('#info-field').append('<br><button class="button is-primary" id="message_submit_button">Poke</button>');
                   } else {
                     $('#info-field').empty();
                   }
