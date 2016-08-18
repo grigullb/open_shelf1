@@ -109,7 +109,7 @@ function runSearch(search_term){
       }).done((books) => {
         for(book of books) {
           console.log(book);
-          $("#search-field-results").append('<a class="book_select" data-idbook="'+book.id+'">'+book.title+'</a>');
+          $("#search-field-results").append('<a class="book_select" data-idbook="'+book.id+'">'+book.title+'</a><br>');
         }
       });
 }

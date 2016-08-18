@@ -34,11 +34,9 @@ $(() => {
             $('div').filter('[data-bookid="'+this_book_id+'"]').append('<p>'+author+'</p>');
             }
             if(image){
-              $('div').filter('[data-bookid="'+this_book_id+'"]').append('<img src="'+image+'">');
-            } else{
-              $('div').filter('[data-bookid="'+this_book_id+'"]').append('<p>&nbsp no image</p>');
+              $('div').filter('[data-bookid="'+this_book_id+'"]').append('<img src="'+image+'" class="column is-half">');
             }
-            $('div').filter('[data-bookid="'+this_book_id+'"]').append('<p>Genre: '+genre+'</p>');
+            $('div').filter('[data-bookid="'+this_book_id+'"]').append('<p class="column is-half">Genre: '+genre+'</p>');
             if(page_count){
               $('div').filter('[data-bookid="'+this_book_id+'"]').append('<p>Pages: '+page_count+'</p>');
             }
@@ -50,14 +48,7 @@ $(() => {
       });
     });
   });
-  $.ajax({
-    method: "GET",
-    url: "/api/users/" + userId
-  }).done((users) => {
-    for(user of users) {
-    $("h1").text(user.firstname + "'s Profile Page");
-    }
-  });
+
   
 });
 
@@ -67,8 +58,8 @@ function showUserBooks(userId){
     url: "/api/users/" + userId + "/books"
   }).done((books) => {
     for(book of books) {
-      $(".show_books").append('<a data-bookid="'+book.id+'" class="book_link" href="#">'+book.title+'</a>');
-      $(".show_books").append('<div data-bookid="'+book.id+'" class="book_detail"></div>');
+      $(".show_books").append('<a data-bookid="'+book.id+'" class="book_link title is-2" href="#">'+book.title+'</a>');
+      $(".show_books").append('<div data-bookid="'+book.id+'" class="book_detail details is-4"></div>');
     }
   });
 }
@@ -80,7 +71,7 @@ $.ajax({
     for(user of users) {
       $('#info-field').append('<section class="section">\
       <div class="show_users"></div>\
-      <p>Books you are offering: </p>\
+      <p class="book-title centered">Your Books:</p>\
       <div class="show_books">\
       </div>')
       $("<div>").text(user.email).appendTo($(".show_users"));

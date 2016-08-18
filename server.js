@@ -20,7 +20,6 @@ const http         = require('http').Server(app);
 const io           = require('socket.io')(http);
 // socket clients 
 const clients = {};
-
 //some of this is replicated in ./database.js, can be replaced later
 const knexConfig   = require("./knexfile");
 const knex         = require("knex")(knexConfig[ENV]);
@@ -42,6 +41,8 @@ let Book = require('./models/book');
 let Author = require('./models/author');
 let Genre = require('./models/genre');
 let Interest = require('./models/interests');
+
+// let onlineUsers = {};
 
 // let onlineUsers = {};
 
@@ -168,9 +169,9 @@ function seekInterests(req){
       }
       notifyUsers(results, "A user has uploaded a book you're interested in!");
     });
+    resolve(results);
   })
 }
-
 
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()){
@@ -259,6 +260,17 @@ io.on('connection', function(socket){
   })
 });
 
+function notifyUsers(user_ids, message) {
+  user_ids.forEach(function(user_id) {
+    var sockets = clients[user_id];
+    if (sockets && sockets.length) {
+      sockets.forEach(function(socket) {
+        console.log("lsdjflksdjfs")
+        socket.emit('notification', message);
+      })
+    }
+  })
+}
 
 http.listen(PORT, () => {
   console.log("OpenShelf listening on port " + PORT);

@@ -45,4 +45,16 @@ body h1 {
   transform: scale(1.1);
 }
 
+.book-title {
+  font-size: 30px;
+}
+
+.details {
+  font-size: 20px;
+}
+
+.centered {
+  text-align: center;
+}
+
 
