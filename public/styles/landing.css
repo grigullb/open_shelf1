@@ -2691,14 +2691,14 @@
 		}
 
 		#header header {
-			color: rgba(255, 255, 255, 0.5);
+			color: rgba(255, 255, 255, 1);
 			display: inline-block;
 			padding-bottom: 8em;
 			vertical-align: middle;
 		}
 
 			#header header h1, #header header h2, #header header h3, #header header h4, #header header h5, #header header h6, #header header strong, #header header b {
-				color: #ffffff;
+				color: rgba(255, 255, 255, 1);
 			}
 
 			#header header a {

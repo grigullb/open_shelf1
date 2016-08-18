@@ -45,8 +45,8 @@ body h1 {
   transform: scale(1.1);
 }
 
-.book-title {
-  
+#info-field .preference-subtitle{
+  font-size: 16px;
 }
 
 .details {
