@@ -8,7 +8,7 @@ let Genre = require('../models/genre');
 let Author = require('../models/author');
 
 
-module.exports = (knex) => {
+module.exports = (knex, notifyUsers) => {
 
   router.post("/", (req, res) =>{
     // if the author already exists, don't insert to the author table  TODO: what if there's multiple authors?
@@ -30,6 +30,7 @@ module.exports = (knex) => {
     });
     knex('books').insert({title: req.body.title})
       .then( function (result) {
+          notifyUsers([req.body.receiverId], "You've got mail!")
           res.json({ success: true, message: 'title added' });     // respond back to request
     });
   });
