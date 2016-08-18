@@ -1,43 +1,100 @@
-<main class="columns container is-fluid">
-  <section class="column is-one-fourth row middle is-fluid">
-    <div class="camera-box">
-      <div class="scan-area middle
-  " style="position: relative; display: inline-block;">
-        <canvas width="320" height="240" id="cam" class="background-colorISBN" style="transform: scale(1, 1);"></canvas>
-        <div class="scanner-laser laser-rightBottom" style="opacity: 0.5; display: block;"></div>
-        <div class="scanner-laser laser-rightTop" style="opacity: 0.5; display: block;"></div>
-        <div class="scanner-laser laser-leftBottom" style="opacity: 0.5; display: block;"></div>
-        <div class="scanner-laser laser-leftTop" style="opacity: 0.5; display: block;"></div>
+<nav class="nav">
+  <div class="nav-left">
+    <a class="nav-item" href="/users/{{userId}}">
+      <img src="/images/shelf.png" class="hvr-grow">
+    </a>
+    <a class="nav-item is-brand" href="/users/{{userId}}">
+      <h2 class="brand-text">Open Shelf</h2>
+    </a>
+  </div>
+  <div class="nav-right nav-menu">
+    <p class="nav-item" id="message_box">
+      <span id="message_count">0</span>
+      &nbsp;<span id="message_header">Message</span>
+    </p>
+    <span class="nav-item">
+      <a class="button is-danger" href="/books/new">
+        <span>Add Book</span>
+      </a>
+      <a id="settings" class="button is-primary" href="#" >
+        <span>Your Books</span>
+      </a>
+      <a id="preferences" class="button is-info" href="#" >
+        <span>Preferences</span>
+      </a>
+      <a class="button" href="/logout">
+        <span>Logout</span>
+      </a>
+    </span>
+  </div>
+</nav>
+<div class="column">
+</div>
+      <div class="column has-text-centered">
+        <h1 class="title is-3">Scan your book</h1>
+        <p class="subtitle is-5">Hold the ISBN to the camera</p>
       </div>
-    </div>
-  </section>
-  <section class="middle">
-    <div>
-      <button id="play">Play</button>
-      <button id="stop">Stop</button>
-      <button id="isbn-select">ISBN</button>
-      <select id="camera-select"></select>
-    </div>
-  </section>
-</main>
-<main class="columns">
-  <section class="column is-half row middle">
-    <form action="/books/create" method="post" class="book-submit-form">   <!-- action needs a route -->
-      <label for="submit-isbn" class="label caption">ISBN:</label>
-      <input id="submit-isbn" class="input submit-isbn" type="text" name="isbn"><br>
+<div class="column">
+</div>
 
-      <label for="submit-title" class="label">Book Title:</label>
-      <input id="submit-title" class="input" type="text" name="title"><br>
+<section class="columns">
 
-      <label for="author" class="label">Author(s):</label>
-      <input id="author" class="input" type="text" name="author"><br>
+  <div class="column is-one-third"></div>
 
-      <label for="submit-genre" class="label">Genre:</label>
-      <input id="submit-genre" class="input" type="text" name="genre"><br>
+  <div class="column is-one-third box">
+    <section class="columns">
+    </section>
 
-      <input type="submit" value="Post Book">
-    </form>
-  </section>
-  <section class="column is-offset-1">
-  </section>
-</main>
+<br>
+<br>
+    <section class="columns">
+      <div class="column middle">
+        <div class="camera-box"> 
+          <div class="scan-area middle" style="position: relative; display: inline-block;">
+            <canvas width="320" height="240" id="cam" class="background-colorISBN" style="transform: scale(1, 1);"></canvas>
+            <div class="scanner-laser laser-rightBottom" style="opacity: 0.5; display: block;"></div>
+            <div class="scanner-laser laser-rightTop" style="opacity: 0.5; display: block;"></div>
+            <div class="scanner-laser laser-leftBottom" style="opacity: 0.5; display: block;"></div>
+            <div class="scanner-laser laser-leftTop" style="opacity: 0.5; display: block;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="columns middle">
+      <div class="level">
+        <button class="button is-small is-success" id="play">Play</button><p>&nbsp;</p>
+        <button class="button is-small is-danger" id="stop">Stop</button><p>&nbsp;</p>
+        <button class="button is-small is-primary" id="isbn-select">AutoFill</button><p>&nbsp;</p>
+        <span class="select is-small">
+        <select id="camera-select">
+          </select>
+        </span>
+      </div>
+    </section>
+
+    <section class="columns">
+      <main class="column">
+        <section class="column">
+          <form action="/books/create" method="post" class="book-submit-form">   <!-- action needs a route -->
+            <label for="submit-isbn" class="label caption">ISBN:</label>
+            <input id="submit-isbn" class="input submit-isbn" type="text" name="isbn"><br>
+            <label for="submit-title" class="label">Book Title:</label>
+            <input id="submit-title" class="input" type="text" name="title"><br>
+            <label for="author" class="label">Author(s):</label>
+            <input id="author" class="input" type="text" name="author"><br>
+            <label for="submit-genre" class="label">Genre:</label>
+            <input id="submit-genre" class="input" type="text" name="genre">
+            <br>
+            <br>
+            <div class="middle" style="margin-left: -5px;">
+            <input type="submit" class="button is-primary" value="Post Book">
+            </div>
+          </form>
+        </section>
+      </main>
+    </section>
+  </div>
+
+  <div class="column is-one-third"></div>
+</section>
