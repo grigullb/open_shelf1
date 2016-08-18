@@ -9,7 +9,7 @@ module.exports = (knex) => {
     knex
       .select("*")
       .from("books")
-      .where('user_id', req.params.id)
+      .where('user_id', req.user.id)
       .then((results) => {
         res.json(results);
     });
@@ -29,7 +29,7 @@ module.exports = (knex) => {
     knex('users')
       .join('user_interests', 'users.id', '=', 'user_interests.user_id')
       .select('user_interests.type', 'user_interests.interest')
-      .where('user_interests.user_id', req.params.userid)
+      .where('user_interests.user_id', req.user.id)
       .then(function(results){
         res.json(results);
       });
@@ -39,14 +39,14 @@ module.exports = (knex) => {
     knex
       .select("*")
       .from("users")
-      .where('id', req.params.id)
+      .where('id', req.user.id)
       .then((results) => {
         res.json(results);
     });
   });
 
   router.post("/interests", (req, res) => {
-    knex('user_interests').insert({type: req.body.interest_type, interest: req.body.int_input, user_id: req.body.this_user_id})
+    knex('user_interests').insert({type: req.body.interest_type, interest: req.body.int_input, user_id: req.body.user.id})
       .then( function (result) {
           res.json({ success: true, message: 'interest added' });     // respond back to request
     });
