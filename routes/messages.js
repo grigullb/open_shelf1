@@ -9,7 +9,7 @@ module.exports = (knex, notifyUsers) => {
 
     knex('messages').insert({text: req.body.text, sender_id: req.body.senderId, reciever_id: req.body.receiverId, subject: req.body.subject})
       .then( function (result) {
-          notifyUsers([req.body.receiverId], "You've got mail!")
+          notifyUsers([req.body.receiverId], "You've got mail!");
           res.json({ success: true, message: 'ok' });
      // respond back to request
   });

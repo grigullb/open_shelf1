@@ -58,6 +58,10 @@
 
 /* Containers */
 
+  #header header #title-colors{
+    color: #ffffff;
+  }
+
   .container {
     margin-left: auto;
     margin-right: auto;

@@ -3,47 +3,12 @@
 <section>
 <nav class="nav">
   <div class="nav-left">
-    <a class="nav-item is-brand" href="#">
-      <h2>Open Shelf</h2>
+    <a class="nav-item" href="/">
+      <img src="/images/shelf.png" class="hvr-grow">
     </a>
-  </div>
-
-  <div class="nav-center">
-    <a class="nav-item" href="#">
-      <span class="icon">
-        <i class="fa fa-github"></i>
-      </span>
+    <a class="nav-item is-brand" href="/">
+      <h2 class="brand-text">Open Shelf</h2>
     </a>
-    <a class="nav-item" href="#">
-      <span class="icon">
-        <i class="fa fa-twitter"></i>
-      </span>
-    </a>
-  </div>
-
-  <span class="nav-toggle">
-    <span></span>
-    <span></span>
-    <span></span>
-  </span>
-
-  <div class="nav-right nav-menu">
-    
-    <a class="nav-item" href="#">
-      <h1>Profile Page</h1>
-    </a>
-
-    <span class="nav-item">
-      <a class="button is-danger" href="/books/new" >
-        <span>Add Book</span>
-      </a>
-      <a class="button" href="#">
-        <span>Settings</span>
-      </a>
-      <a class="button" href="/logout">
-        <span>Logout</span>
-      </a>
-    </span>
   </div>
 </nav>
 </section><br>
@@ -67,32 +32,23 @@
 
     <div class="column is-half">
       <div class="box">
-        <form action="/login" method="post">   
-          <label for="login-email" class="label">Email:</label>
-          <p class="control">
-            <input id="login-email" name="email" class="input" type="text" placeholder="name@email.com">
-          </p>
+        <div class="column">
+          <form action="/login" method="post">   
+            <label for="login-email" class="label">Email:</label>
+            <p class="control">
+              <input id="login-email" name="email" class="input" type="text" placeholder="name@email.com">
+            </p>
 
-          <label for="submit-title" class="label">Password:</label>
-          <p class="control">
-            <input id="submit-title" name="password" class="input" type="password" placeholder="securepassword">
-          </p>
-
-          <input type="submit" value="Login" class="button is-primary is-medium">
-        </form>
-      </div>
-    <br>
-    
-    <div>  <!-- these could probably be button tags - testing something with forms/submits -->
-      <form action="/">
-        <input type="submit" value="Return to Landing" class="button is-primary"/>
-      </form>
-    </div>
-    <br>
-    <div>
-      <form action="/users/new">
-        <input type="submit" value="Make a New User" class="button is-primary"/>
-      </form> 
+            <label for="submit-title" class="label">Password:</label>
+            <p class="control">
+              <input id="submit-title" name="password" class="input" type="password" placeholder="securepassword">
+            </p>
+            <p class="control">
+              <input type="submit" value="Login" class="button is-primary">
+              <a href="/users/new"><button class="button is-primary">New User</button></a>
+            </p>
+          </form>
+        </div>
       </div>
     </div>
 
