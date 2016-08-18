@@ -6,7 +6,8 @@ exports.seed = function(knex, Promise) {
         knex('authors').insert({author: 'Alison Moore'}),
         knex('authors').insert({author: 'J.K. Rowling'}),
         knex('authors').insert({author: 'Malcolm Gladwell'}),
-        knex('authors').insert({author: 'J.R.R. Tolkien'})
+        knex('authors').insert({author: 'J.R.R. Tolkien'}),
+        knex('authors').insert({author: 'Donald A. Norman'})
       ]);
     });
 };

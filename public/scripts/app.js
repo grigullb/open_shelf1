@@ -30,21 +30,23 @@ $(() => {
           }  //smallThumbnail also available, both are URL links
           var genre = results.categories[0]; //array 
           if($('div').filter('[data-bookid="'+this_book_id+'"]').is(':empty')){
-            $('div').filter('[data-bookid="'+this_book_id+'"]').append('<section class="content"></section>')
+            $('div').filter('[data-bookid="'+this_book_id+'"]').append('<section class="content columns"></section>')
             if (book_title){
-            $('div').filter('[data-bookid="'+this_book_id+'"]').append('<p class="column is-half title is-4">'+book_title+'</p>');
+            $('div').filter('[data-bookid="'+this_book_id+'"]').append('<p class="title is-4">&nbsp;&nbsp;'+book_title+'</p>');
             }
             if (author){
-            $('div').filter('[data-bookid="'+this_book_id+'"]').append('<p class="column is-half subtitle is-5">'+author+'</p>');
+            $('div').filter('[data-bookid="'+this_book_id+'"]').append('<p class="subtitle is-5">&nbsp;&nbsp;'+author+'</p>');
             }
             if(image){
-              $('div').filter('[data-bookid="'+this_book_id+'"]').append('<img src="'+image+'" class="column is-half">');
+              $('div').filter('[data-bookid="'+this_book_id+'"]').append('<p>&nbsp;&nbsp;<img src="'+image+'" class="image is-240x320"></p>');
             }
-            $('div').filter('[data-bookid="'+this_book_id+'"]').append('<p class="column is-half">Genre: '+genre+'</p>');
+            $('div').filter('[data-bookid="'+this_book_id+'"]').append('<p>&nbsp;&nbsp;Genre: '+genre+'</p>');
             if(page_count){
-              $('div').filter('[data-bookid="'+this_book_id+'"]').append('<p>Pages: '+page_count+'</p>');
+              $('div').filter('[data-bookid="'+this_book_id+'"]').append('<p>&nbsp;&nbsp;Pages: '+page_count+'</p>');
             }
-            $('div').filter('[data-bookid="'+this_book_id+'"]').append('<p>Description: '+book[0].condition+'</p>');
+            $('div').filter('[data-bookid="'+this_book_id+'"]').append('<p>&nbsp;&nbsp;Description: '+book[0].condition+'</p>');
+            $('div').filter('[data-bookid="'+this_book_id+'"]').append('<br>');
+
           } else {
             $('div').filter('[data-bookid="'+this_book_id+'"]').empty();
           }
