@@ -9,6 +9,7 @@ $(() => {
 	$(document).on('click', '#change_preferences', function(){
 		$('#info-field').append('<div id="show_form" class="content"></div>')
 		if($('#show_form').is(':empty')){
+			$('#show_form').addClass('menu');
 			$('#show_form').append('<br><form action="/interests" method="post" class="interest_submit_form">\
 				<select name="interest_type">\
 		  		<option value="title">title</option>\
@@ -21,6 +22,7 @@ $(() => {
 			  	<input type="hidden" value='+userId+' name="this_user_id">\
 				</form>');
 		} else{
+			$('#show_form').removeClass('menu');
 			$('#show_form').empty();
 		}
 	});
@@ -34,8 +36,8 @@ $(() => {
 	   	url: "/api/users/interests",
 	   	data: form_data,
 	   	success: (data)=>{
-	    	console.log(data);
 	    	getInterests(userId);
+	    	fillSection;
 	    }
 	  });
 	});
@@ -48,34 +50,24 @@ function getInterests(userId){
 	    url: "/api/users/interests/" + userId
 	  }).done((interests) => {
 	    for(interest of interests) {
-	    	console.log(interest);
 	    	if(interest.type === 'genre'){
-	    		$('#show_genres').append('<li class="content">&nbsp;&nbsp;'+interest.interest+'</li>');
+	    		$('.genre-in').append('<li class="content">&nbsp;&nbsp;'+interest.interest+'</li>');
 	    	}
 	    	if(interest.type === 'title'){
-	    		$('#show_titles').append('<li>&nbsp;&nbsp;'+interest.interest+'</li>');
+	    		$('.title-in').append('<li>&nbsp;&nbsp;'+interest.interest+'</li>');
 	    	}
 	    	if(interest.type === 'author'){
-	    		$('#show_authors').append('<li>&nbsp;&nbsp;'+interest.interest+'</li>');
+	    		$('.author-in').append('<li>&nbsp;&nbsp;'+interest.interest+'</li>');
 	    	}
 	    }
-	   if($('#show_genres').children().length === 0){
-	   	$('#show_genres').empty();
-	   }
-	   if($('#show_titles').children().length === 0){
-	   	$('#show_titles').empty();
-	   }
-	   if($('#show_authors').children().length === 0){
-	   	$('#show_authors').empty();
-	   }
 	});
 }
 function fillSection(){
 		// $('#info-field').append('<section id="notif_info" class="section"></section>')
-		$('#info-field').append('<p class="title is-3">Watchlist</p>');
+		$('#info-field').append('<p class="title is-3">Preferences - Watchlist</p>');
 		$('#info-field').append('<div id="author_interest"><p class="subtitle is-5">You will be notified when books related to these interests are posted: </p></div><br>');
-		$('#info-field').append('<ul id="show_titles" class="preference-subtitle">Titles: </ul>');
-		$('#info-field').append('<ul id="show_authors">Authors: </ul>');
-		$('#info-field').append('<ul id="show_genres">Genre: </ul>');
+		$('#info-field').append('<ul id="show_titles" class="menu-list box">Titles: <ul class="title-in content"><br></ul> </ul>');
+		$('#info-field').append('<ul id="show_authors" class="menu-list box">Authors: <ul class="author-in content"><br></ul> </ul>');
+		$('#info-field').append('<ul id="show_genres" class="menu-list box">Genre: <ul class="genre-in content"><br></ul> </ul>');
 		$('#info-field').append('<br><a id="change_preferences"><button class="button is-outlined is-primary">Add to Watchlist</button></a>');
 }

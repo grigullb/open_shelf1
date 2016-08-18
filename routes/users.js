@@ -45,7 +45,7 @@ module.exports = (knex) => {
     });
   });
 
-  router.post("/interests", (req, res) => {
+  router.post("/interests/:userid", (req, res) => {
     knex('user_interests').insert({type: req.body.interest_type, interest: req.body.int_input, user_id: req.body.user.id})
       .then( function (result) {
           res.json({ success: true, message: 'interest added' });     // respond back to request
