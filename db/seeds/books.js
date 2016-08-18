@@ -11,8 +11,10 @@ exports.seed = function(knex, Promise) {
         knex('books').insert({title: "The Hobbit", isbn: "0547951973", user_id: 1, genre_id: 4,author_id: 5, condition: 'Brand new' }),
         knex('books').insert({title: "The Hobbit", isbn: "0547951973", user_id: 2, genre_id: 4,author_id: 5, condition: 'Brand new' }),
         knex('books').insert({title: "The Design of Everyday Things", isbn: "9780465050659", user_id: 1, genre_id: 3,author_id: 6, condition: 'Slightly worn out' }),
-        knex('books').insert({title: "", isbn: "", user_id: , genre_id: ,author_id: , condition: 'Brand new' }),
-        knex('books').insert({title: "", isbn: "", user_id: , genre_id: ,author_id: , condition: 'Brand new' })
+        knex('books').insert({title: "Emotional Design", isbn: "9780465051366", user_id: 1, genre_id: 5,author_id: 6, condition: 'Brand new' }),
+        knex('books').insert({title: "Heart of Darkness", isbn: "9780486264646", user_id: 2, genre_id: 1,author_id: 7, condition: 'Very old' }),
+        knex('books').insert({title: "Heart of Darkness", isbn: "9780486264646", user_id: 1, genre_id: 1,author_id: 7, condition: 'Decent' }),
+        knex('books').insert({title: 'The Tipping Point: How Little Things Can Make a Big Difference', isbn: '0759574731', user_id: 2, genre_id: 3, author_id: 4, condition: 'Weathered'})
       ]);
     });
 };
