@@ -64,27 +64,27 @@ function showUserBooks(userId){
     }
   });
 }
-function showUserInfo(userId){
-$.ajax({
-    method: "GET",
-    url: "/api/users/" + userId
-  }).done((users) => {
-    for(user of users) {
-      $('#info-field').append('<div class="content">\
-      <div class="show_users"></div>\
-      <p class="book-title">Your Books:</p>\
-      <div class="show_books">\
-      </div>')
-      $("<div>").text(user.email).appendTo($(".show_users"));
-      $.ajax({
-        method: "GET",
-        url: "/api/users/" + userId + "/books"
-      }).done((books) => {
-        for(book of books) {
-          $(".show_books").append('<a data-bookid="'+book.id+'" class="book_link" href="#">'+book.title+'</a>');
-          $(".show_books").append('<div data-bookid="'+book.id+'" class="book_detail"></div>');
-        }
-      });
-    }
-  });
-}
+// function showUserInfo(userId){
+// $.ajax({
+//     method: "GET",
+//     url: "/api/users/" + userId
+//   }).done((users) => {
+//     for(user of users) {
+//       $('#info-field').append('<div class="content">\
+//       <div class="show_users"></div>\
+//       <p class="book-title">Your Books:</p>\
+//       <div class="show_books">\
+//       </div>')
+//       $("<div>").text(user.email).appendTo($(".show_users"));
+//       $.ajax({
+//         method: "GET",
+//         url: "/api/users/" + userId + "/books"
+//         }).done((books) => {
+//         for(book of books) {
+//           $(".show_books").append('<a data-bookid="'+book.id+'" class="book_link" href="#">'+book.title+'</a>');
+//           $(".show_books").append('<div data-bookid="'+book.id+'" class="book_detail"></div>');
+//         }
+//       });
+//     }
+//   });
+// }

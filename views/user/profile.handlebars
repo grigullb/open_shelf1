@@ -1,7 +1,7 @@
 
 <nav class="nav">
   <div class="nav-left">
-    <a class="nav-item" href="/users/{{userId}}">
+    <a class="nav-item" href="/">
       <img src="/images/shelf.png" class="hvr-grow">
     </a>
     <a class="nav-item is-brand" href="/users/{{userId}}">
@@ -19,7 +19,7 @@
       <a class="button is-danger" href="/books/new">
         <span>Add Book</span>
       </a>
-      <a id="settings" class="button is-primary" href="#" >
+      <a id="settings" class="button is-primary" href="/users/{{userId}}" >
         <span>Your Books</span>
       </a>
       <a id="preferences" class="button is-info" href="#" >
@@ -61,6 +61,6 @@
     </div>
   </div>
 </section>
+<input type="hidden" id="user-id" value="{{userId}}">
 
-<input type="hidden" id="user-id" value="1">
 
