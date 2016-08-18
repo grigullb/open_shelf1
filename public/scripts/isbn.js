@@ -20,6 +20,7 @@ $(() => {
         decoder.pause();
         setTimeout(function() {
           decoder.play();
+          swal("Here's a message!");
         }, 150)
     }); 
     $('#stop').on('click', () => {

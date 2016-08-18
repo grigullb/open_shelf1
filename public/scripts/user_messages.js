@@ -6,16 +6,17 @@ $(() => {
   	addPopup();
   	$.ajax({
       method: "GET",
-      url: "/api/messages/"+ userId
+      url: "/api/messages/" + userId
   	}).done((messages) => {
+
   		if(messages.length > 0){
+           console.log("checking new")
   			var message_count = messages.length;
 		    for(mes of messages) {
 			    $('.panel-tabs').after('<a class="panel-block is-active" href="#"> \
-			   	<span class="panel-icon"> \
 			    <i class="fa fa-book"></i> \
 			    </span> \
-			    <span data-count='+message_count+'></span> <p>Subject: '+mes.subject+'</p><p>'+mes.text+'</p> \
+			    <span data-count='+message_count+'></span> <p>Subject: '+mes.subject+'</p><p>Content: '+mes.text+'</p> \
 			  	</a>');
 			  	getUserName(mes.sender_id, message_count);
 			  	message_count ++;
@@ -56,6 +57,7 @@ function getUserName(userId, message_count){
     url: "/api/users/" + userId
   }).done((users) => {
     for(user of users) {
+      console.log("hello")
       $('span').filter('[data-count="'+message_count+'"]').text('From '+user.firstname+': ');
     }
   });
@@ -87,13 +89,10 @@ function addPopup(){
     Messages \
   </p> \
   <p class="panel-tabs"> \
-    <a class="is-active" href="#">All</a> \
-    <a href="#">Read</a> \
-    <a href="#">Unread</a> \
   </p> \
   <div class="panel-block"> \
-    <button class="button is-primary is-outlined is-fullwidth"> \
-      Mark all as Read \
+    <button class="button is-primary is-outlined is-fullwidth" > \
+      Back \
     </button> \
   </div> \
 </nav>').css({
