@@ -30,8 +30,12 @@ $(() => {
           }  //smallThumbnail also available, both are URL links
           var genre = results.categories[0]; //array 
           if($('div').filter('[data-bookid="'+this_book_id+'"]').is(':empty')){
+            $('div').filter('[data-bookid="'+this_book_id+'"]').append('<section class="content"></section>')
+            if (book_title){
+            $('div').filter('[data-bookid="'+this_book_id+'"]').append('<p class="column is-half title is-4">'+book_title+'</p>');
+            }
             if (author){
-            $('div').filter('[data-bookid="'+this_book_id+'"]').append('<p>'+author+'</p>');
+            $('div').filter('[data-bookid="'+this_book_id+'"]').append('<p class="column is-half subtitle is-5">'+author+'</p>');
             }
             if(image){
               $('div').filter('[data-bookid="'+this_book_id+'"]').append('<img src="'+image+'" class="column is-half">');

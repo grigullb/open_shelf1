@@ -74,8 +74,8 @@ function fillSection(){
 		// $('#info-field').append('<section id="notif_info" class="section"></section>')
 		$('#info-field').append('<p class="title is-3">Watchlist</p>');
 		$('#info-field').append('<div id="author_interest"><p class="subtitle is-5">You will be notified when books related to these interests are posted: </p></div><br>');
-		$('#info-field').append('<ul id="show_titles">Titles: </ul>');
+		$('#info-field').append('<ul id="show_titles" class="preference-subtitle">Titles: </ul>');
 		$('#info-field').append('<ul id="show_authors">Authors: </ul>');
 		$('#info-field').append('<ul id="show_genres">Genre: </ul>');
-		$('#info-field').append('<br><a id="change_preferences"><button class="button is-primary">Add to Watchlist</button></a>');
+		$('#info-field').append('<br><a id="change_preferences"><button class="button is-outlined is-primary">Add to Watchlist</button></a>');
 }
