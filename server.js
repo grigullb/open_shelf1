@@ -137,12 +137,6 @@ app.post("/books/create", isLoggedIn, function(req, res){
   });
 });
 
-//New message
-app.get('/messages', function(req, res){
-  res.render("messages/new", {
-     scripts: ['socket.io-client/socket.io.js']
-  });
-});
 
 app.get("/user_verification", function(req, res) {
   res.json(req.user ? req.user.id : false)
