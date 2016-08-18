@@ -6,7 +6,8 @@ exports.seed = function(knex, Promise) {
         knex('genres').insert({genre: 'Application Software'}),
         knex('genres').insert({genre: 'Business & Economics'}),
         knex('genres').insert({genre: 'Juvenile Fiction'}),
-        knex('genres').insert({genre: 'Psychology'})
+        knex('genres').insert({genre: 'Psychology'}),
+        knex('genres').insert({genre: 'Games'})
       ]);
     });
 };

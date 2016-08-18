@@ -36,7 +36,7 @@ module.exports = (knex, notifyUsers) => {
   });
 
   router.get("/search/:filter/:term", (req, res) => {
-    if (req.params.filter === 'genre'){
+    if (req.params.filter === 'Genre'){
       knex('books')
       .join('genres', 'books.genre_id', '=', 'genres.id')
       .select('books.title', 'books.id', 'books.condition')
@@ -46,7 +46,7 @@ module.exports = (knex, notifyUsers) => {
         console.log(results);
       });
     } 
-    if (req.params.filter === 'author'){
+    if (req.params.filter === 'Author'){
       knex('books')
       .join('authors', 'books.author_id', '=', 'authors.id')
       .select('books.title', 'books.id')
@@ -57,10 +57,10 @@ module.exports = (knex, notifyUsers) => {
         console.log(results);
       });
     } 
-    if (req.params.filter === 'title'){
+    if (req.params.filter === 'Title'){
       knex('books')
       .select('books.title', 'books.id')
-      .where('books.title', 'like','%'+req.params.term.toLowerCase()+'%')
+      .where('books.title', 'like','%'+req.params.term+'%')
       .then(function(results){
         res.json(results);
         console.log(results);
