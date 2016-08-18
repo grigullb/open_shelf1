@@ -83,7 +83,7 @@ app.use("/styles", sass({
 
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
-app.use("/api/books", booksRoutes(knex));
+app.use("/api/books", booksRoutes(knex, notifyUsers));
 app.use("/api/messages", messagesRoutes(knex, notifyUsers));
 
 // Home page
@@ -138,15 +138,28 @@ app.post("/books/create", isLoggedIn, function(req, res){
 });
 
 //New message
-// app.get('/messages', function(req, res){
-//   res.render("messages/new", {
- //     scripts: ['socket.io-client/socket.io.js']
-//   });
-// });
+app.get('/messages', function(req, res){
+  res.render("messages/new", {
+     scripts: ['socket.io-client/socket.io.js']
+  });
+});
 
 app.get("/user_verification", function(req, res) {
   res.json(req.user ? req.user.id : false)
 })
+
+function notifyUsers(user_ids, message) {
+  console.log(user_ids);
+  user_ids.forEach(function(user_id) {
+    var sockets = clients[user_id];
+    if (sockets && sockets.length) {
+      sockets.forEach(function(socket) {
+        console.log("Sending messages");
+        socket.emit('notification', message);
+      })
+    }
+  })
+}
 
 function seekInterests(req){
   return new Promise(function(resolve, reject){
@@ -159,8 +172,7 @@ function seekInterests(req){
       for(var i=0;i<data.length;i++){
         results.push(data[i].user_id);
       }
-      console.log(results);
-      resolve(results);
+      notifyUsers(results, "A user has uploaded a book you're interested in!");
     });
   })
 }
@@ -243,6 +255,7 @@ io.on('connection', function(socket){
     }
     user_id = id;
     clients[id].push(socket);
+    console.log(clients);
   })
   socket.on('disconnect', function(){
     var c = clients[user_id];
@@ -252,16 +265,6 @@ io.on('connection', function(socket){
   })
 });
 
-function notifyUsers(user_ids, message) {
-  user_ids.forEach(function(user_id) {
-    var sockets = clients[user_id];
-    if (sockets && sockets.length) {
-      sockets.forEach(function(socket) {
-        socket.emit('notification', message);
-      })
-    }
-  })
-}
 
 http.listen(PORT, () => {
   console.log("OpenShelf listening on port " + PORT);
