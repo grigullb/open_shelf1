@@ -169,6 +169,7 @@ function seekInterests(req){
       }
       notifyUsers(results, "A user has uploaded a book you're interested in!");
     });
+    resolve(results);
   })
 }
 
