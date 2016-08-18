@@ -20,10 +20,6 @@ const http         = require('http').Server(app);
 const io           = require('socket.io')(http);
 // socket clients 
 const clients = {};
-
-=======
-const http         = require('http').Server(app);
-// const io           = require('socket.io')(http);
 //some of this is replicated in ./database.js, can be replaced later
 const knexConfig   = require("./knexfile");
 const knex         = require("knex")(knexConfig[ENV]);
@@ -247,6 +243,7 @@ io.on('connection', function(socket){
     }
     user_id = id;
     clients[id].push(socket);
+        console.log(clients)
   })
   socket.on('disconnect', function(){
     var c = clients[user_id];
@@ -261,6 +258,7 @@ function notifyUsers(user_ids, message) {
     var sockets = clients[user_id];
     if (sockets && sockets.length) {
       sockets.forEach(function(socket) {
+        console.log("lsdjflksdjfs")
         socket.emit('notification', message);
       })
     }
