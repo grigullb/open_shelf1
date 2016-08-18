@@ -50,9 +50,9 @@ $(() => {
                   }  //smallThumbnail also available, both are URL links
                   var genre = results.categories[0]; //array 
                   if($('#info-field').is(':empty')){
-                    $('#info-field').append('<p>'+book_title+'</p>');
+                    $('#info-field').append('<p class="title is-4 content">'+book_title+'</p>');
                     if (author){
-                      $('#info-field').append('<p>'+author+'</p>');
+                      $('#info-field').append('<p class="subtitle is-5">'+author+'</p>');
                     }
                     if(image){
                       $('#info-field').append('<img src="'+image+'">');
@@ -66,7 +66,7 @@ $(() => {
                     $('#info-field').append('<p>Description: '+book_condition+'</p>');
                     $('#info-field').append('<p><em>'+book_owner+'</em> is the owner of this Book. Message <em>'+book_owner+'</em> to show your interested in the book</p>');
                     $('#info-field').append('<textarea id="message_field"></textarea>');
-                    $('#info-field').append('<button id="message_submit_button">Submit</button>');
+                    $('#info-field').append('<br><button class="button is-primary" id="message_submit_button">Submit</button>');
                   } else {
                     $('#info-field').empty();
                   }
