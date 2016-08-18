@@ -58,8 +58,9 @@ function showUserBooks(userId){
     url: "/api/users/" + userId + "/books"
   }).done((books) => {
     for(book of books) {
-      $(".show_books").append('<a data-bookid="'+book.id+'" class="book_link title is-2" href="#">'+book.title+'</a>');
-      $(".show_books").append('<div data-bookid="'+book.id+'" class="book_detail details is-4"></div>');
+      $(".show_books").append('<a data-bookid="'+book.id+'" class="book_link panel-block" href="#">\
+        <span class="panel-icon"><i class="fa fa-book"></i></span>'+ book.title + '</a>');
+      $(".show_books").append('<div class="container" id="individualbook"><div data-bookid="'+book.id+'" class="book_detail content"></div></div>');
     }
   });
 }
@@ -69,9 +70,9 @@ $.ajax({
     url: "/api/users/" + userId
   }).done((users) => {
     for(user of users) {
-      $('#info-field').append('<section class="section">\
+      $('#info-field').append('<div class="content">\
       <div class="show_users"></div>\
-      <p class="book-title centered">Your Books:</p>\
+      <p class="book-title">Your Books:</p>\
       <div class="show_books">\
       </div>')
       $("<div>").text(user.email).appendTo($(".show_users"));
