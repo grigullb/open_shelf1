@@ -22,7 +22,6 @@ $(() => {
     $(document).on("click", ".book_select",function(event){
       var this_book_id = $(this).data("idbook");
       $('#info-field').empty();
-      $("#search-field-results").empty();
       $.ajax({
       method: "GET",
       url: "/api/books/user_books/"+this_book_id

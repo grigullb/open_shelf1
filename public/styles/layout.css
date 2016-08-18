@@ -57,4 +57,9 @@ body h1 {
   text-align: center;
 }
 
+.middle {
+  display: flex;
+  justify-content: center;
+}
+
 
